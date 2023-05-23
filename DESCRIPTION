@@ -6,7 +6,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-8748-038X")),
     person("Kompetenzzentrum Wasser Berlin gGmbH (KWB)", role = "cph")
   )
-Description: Aggregate and visualize Qsim/Hydrax output data
+Description: Aggregate and visualize Qsim/Hydrax output data.
 License: MIT + file LICENSE
 URL: https://github.com/KWB-R/qsimVis
 BugReports: https://github.com/KWB-R/qsimVis/issues
