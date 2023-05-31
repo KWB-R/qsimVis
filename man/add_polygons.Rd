@@ -4,14 +4,7 @@
 \alias{add_polygons}
 \title{Add polygons to a map}
 \usage{
-add_polygons(highlight_catchments = "", highlight_style = "shaded")
-}
-\arguments{
-\item{highlight_catchments}{Character vector containing the catchments names
-of catchments to be highlighted}
-
-\item{highlight_style}{Either "shaded" (default) or a specific color, which
-cab also be defined by \code{\link[=rgb]{rgb()}}}
+add_polygons()
 }
 \description{
 Polygons are drawn in different types of gray and names are added, without

@@ -3,11 +3,7 @@
 #' Polygons are drawn in different types of gray and names are added, without
 #' overlapping the catchment boundaries or any river
 #'
-#' @param highlight_catchments Character vector containing the catchments names
-#' of catchments to be highlighted
-#' @param highlight_style Either "shaded" (default) or a specific color, which
-#' cab also be defined by [rgb()]
-#'
+#' @importFrom graphics polygon
 #' @export
 #'
 add_polygons <- function(){

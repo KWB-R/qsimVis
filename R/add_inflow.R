@@ -8,6 +8,7 @@
 #' sizeMax value in order to visualize small inflows better.
 #'
 #' @importFrom grDevices rgb
+#' @importFrom graphics points
 #'
 #' @export
 #'

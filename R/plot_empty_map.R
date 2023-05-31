@@ -47,9 +47,9 @@ plot_empty_map <- function(
     t_map <- ggmap::get_stamenmap(bbox,maptype = "toner", zoom = 12)
     ggmap::ggmap(ggmap = t_map, extent = "device")
 
-    rect(xleft = xlim[2], xright = xlim[2] + add_right,
-         ybottom = ylim[1] - add_bottom, ytop = ylim[2] + add_top,
-         col = "white", xpd = TRUE)
+    # rect(xleft = xlim[2], xright = xlim[2] + add_right,
+    #      ybottom = ylim[1] - add_bottom, ytop = ylim[2] + add_top,
+    #      col = "white", xpd = TRUE)
   }
 }
 
