@@ -15,7 +15,7 @@ deviating_hours <- function(
     thresholds = c(0.5, 1, 1.5, 2, 5),
     dev_type = "elt"
 ){
-  dates <- dataFrame$posixDateTime
+  dates <- dataFrame[,1]
 
   resolution <- as.numeric(difftime(
     time1 = dates[2],
@@ -38,3 +38,4 @@ deviating_hours <- function(
   colnames(df_out) <- paste0("below_", thresholds)
   df_out
 }
+

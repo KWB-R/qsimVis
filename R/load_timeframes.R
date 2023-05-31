@@ -1,4 +1,4 @@
-#' Loads critical rain events for scenario assessment
+#' Loads a data table containing time frames for events of interest
 #'
 #' @param filename file name (including path) of the event definition table
 #'
@@ -7,9 +7,9 @@
 #'
 #' @export
 #' @importFrom utils read.table
-load_events <- function(filename){
+load_timeframes <- function(filename){
   e_data <- read.table(
-    file =  filename,
+    file = filename,
     header = TRUE,
     sep = ";",
     dec = "."
