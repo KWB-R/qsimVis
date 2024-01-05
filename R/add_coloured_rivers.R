@@ -1,9 +1,8 @@
 #' Adds colour scaled riverdata to a map
 #'
 #' @param rivers A list of rivers loaded with [load_rivers()]
-#' @param output_table Table of aggregated data created by one of the
-#' functions [critical_events()], [adverse_deviation_from_reference()] or
-#' [critical_events()]
+#' @param aggregated_data A dataframe created by one of [deviating_hours()],
+#' [adverse_deviation_from_reference()] or [critical_events()]
 #' @param varName The column name of the agregated data in the output_table
 #' @param sixBreaks Breaks defining the lower limits of the categories.
 #' @param dataType Used only for the Legend. If "time" is used, it is assumed
@@ -16,14 +15,20 @@
 #' @export
 #'
 add_coloredRivers <- function(
-    rivers, output_table, sixBreaks, varName, dataType = "time",
+    rivers, aggregated_data, sixBreaks, varName, dataType = "time",
     LegendTitle = dataType, LegendLocation ="right"
 ){
 
+  # if data frame was not stored and loaded qsim sites must added.They correspond
+  # to the rownames of the table
+  if(!("river" %in% colnames(aggregated_data))){
+    aggregated_data$qsim_site <- rownames(aggregated_data)
+  }
+
   ext_rivers <- lapply(seq_along(rivers), function(i) {
-    extend_riverTable(
+    qsimVis:::extend_riverTable(
       river_table = rivers[[i]],
-      output_table = output_table,
+      aggregated_data = aggregated_data,
       varName = varName,
       sixBreaks = sixBreaks)
   })

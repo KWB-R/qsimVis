@@ -14,10 +14,10 @@ plot_empty_map <- function(
     rivers, plot_toner = FALSE
 ){
   xlim <- range(unlist(
-    lapply(rivers, function(x){range(x$x[x$qsim_id != ""])})
+    lapply(rivers, function(x){range(x$x[x$qsim_site != ""])})
   ))
   ylim <- range(unlist(
-    lapply(rivers, function(x){range(x$y[x$qsim_id != ""])})
+    lapply(rivers, function(x){range(x$y[x$qsim_site != ""])})
   ))
   plotDim <- getDimensions(xlim = xlim, ylim = ylim, width = 10)
   width_factor <- plotDim[1]/plotDim[2]

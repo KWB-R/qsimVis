@@ -4,15 +4,14 @@
 \alias{extend_riverTable}
 \title{Adds quality categories to the river table}
 \usage{
-extend_riverTable(river_table, output_table, varName, sixBreaks)
+extend_riverTable(river_table, aggregated_data, varName, sixBreaks)
 }
 \arguments{
 \item{river_table}{Table of one of the rivers loaded with
 \code{\link[=load_rivers]{load_rivers()}}}
 
-\item{output_table}{Table of aggregated data created by one of the
-functions \code{\link[=critical_events]{critical_events()}}, \code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or
-\code{\link[=critical_events]{critical_events()}}}
+\item{aggregated_data}{A dataframe created by one of \code{\link[=deviating_hours]{deviating_hours()}},
+\code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or \code{\link[=critical_events]{critical_events()}}}
 
 \item{varName}{The column name of the agregated data in the output_table}
 

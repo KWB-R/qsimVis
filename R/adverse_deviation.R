@@ -8,6 +8,8 @@
 #' @param reference Column name of the reference in dataFrame or a seperate
 #' data frame that contains the same column names as dataFrame
 #' @param worst A numerical value which is the worst case
+#' @param good_values Character, either "high" or "low" defining what would be
+#' best
 #'
 #' @details
 #' First the similarity the data vector and the reference vector is calculated.
@@ -24,7 +26,7 @@
 #' @export
 #'
 adverse_deviation_from_reference <- function(
-    dataFrame,reference, worst = 0
+    dataFrame,reference, worst = 0, good_values = "high"
 ){
   dates <- dataFrame[,1]
   total_hours <- as.numeric(difftime(
@@ -44,9 +46,19 @@ adverse_deviation_from_reference <- function(
 
   if(is.character(reference)){
     reference_vector <- dataFrame[,reference]
+
     v <- apply(d, 2, function(data_vector){
-      deviation_amount <- (data_vector - worst) / (reference_vector - worst)
-      adverse_deviation <- deviation_amount < 1L
+      if(good_values == "high"){
+        deviation_amount <- (data_vector - worst) / (reference_vector - worst)
+        # Adverse if data is lower than reference and reference is higher than worst
+        adverse_deviation <-
+          data_vector < reference_vector & reference_vector > worst
+      } else if(good_values == "low"){
+        deviation_amount <-  1 - (data_vector - worst) / (reference_vector - worst)
+        # Adverse if data is higher than reference and reference is lower than worst
+        adverse_deviation <-
+          data_vector > reference_vector & reference_vector < worst
+      }
       round(sum(deviation_amount[adverse_deviation]) * t_step, digits = 3)
     })
 
@@ -54,8 +66,17 @@ adverse_deviation_from_reference <- function(
     v <- apply(sites, 2, function(site){
       data_vector <- d[,site]
       reference_vector <- reference[,site]
-      deviation_amount <- (data_vector - worst) / (reference_vector - worst)
-      adverse_deviation <- deviation_amount < 1L
+      if(good_values == "high"){
+        deviation_amount <- (data_vector - worst) / (reference_vector - worst)
+        # Adverse if data is lower than reference and reference is higher than worst
+        adverse_deviation <-
+          data_vector < reference_vector & reference_vector > worst
+      } else if(good_values == "low"){
+        deviation_amount <-  1 - (data_vector - worst) / (reference_vector - worst)
+        # Adverse if data is higher than reference and reference is lower than worst
+        adverse_deviation <-
+          data_vector > reference_vector & reference_vector < worst
+      }
       round(sum(deviation_amount[adverse_deviation]) * t_step, digits = 3)
     })
   }

@@ -4,10 +4,12 @@
 \alias{load_rivers}
 \title{Reads river data}
 \usage{
-load_rivers(path)
+load_rivers(aggregated_data)
 }
 \arguments{
-\item{path}{Pathname with all river data}
+\item{aggregated_data}{A dataframe created by one of \code{\link[=deviating_hours]{deviating_hours()}},
+\code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or \code{\link[=critical_events]{critical_events()}} with verknet IDs
+as rownames}
 }
 \description{
 Reads all csv files starting with "river" in a folder and combines it in a
@@ -17,6 +19,6 @@ x: longitude
 y: lattitude
 distance_to_neighbour: distance to the previous point of the river in km
 km: distance from the river estuary
-qsim_id: The qsim ID as d given by function \code{\link[=QSIM_prepare]{QSIM_prepare()}} if the point
+qsim_id: The qsim ID as given by function \code{\link[=QSIM_prepare]{QSIM_prepare()}} if the point
 matches a qsim output site
 }

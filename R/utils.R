@@ -71,9 +71,8 @@ getDimensions <- function(xlim, ylim, width = 10){
 #'
 #' @param river_table Table of one of the rivers loaded with
 #' [load_rivers()]
-#' @param output_table Table of aggregated data created by one of the
-#' functions [critical_events()], [adverse_deviation_from_reference()] or
-#' [critical_events()]
+#' @param aggregated_data A dataframe created by one of [deviating_hours()],
+#' [adverse_deviation_from_reference()] or [critical_events()]
 #' @param varName The column name of the agregated data in the output_table
 #' @param sixBreaks Breaks defining the lower limits of the categories.
 #'
@@ -93,19 +92,23 @@ getDimensions <- function(xlim, ylim, width = 10){
 #' @importFrom utils data
 #'
 extend_riverTable <- function(
-    river_table, output_table, varName, sixBreaks
+    river_table, aggregated_data, varName, sixBreaks
 ){
   MisaColor <- NULL
   data("MisaColor", envir = environment())
 
   sixBreaks <- c(sixBreaks, Inf)
   river_table$value <- NA
+  aggregated_data$qsim_site <- paste(aggregated_data$river,
+                                  aggregated_data$section,
+                                  aggregated_data$km,
+                                  sep = "_")
 
-  for(i in seq_len(nrow(output_table))){
-    found <- c(which(output_table$qsim_site == river_table$qsim_id[i]),
-               which(rownames(output_table) == river_table$qsim_id[i]))
+  for(i in seq_len(nrow(aggregated_data))){
+    found <- c(which(aggregated_data$qsim_site == river_table$qsim_site[i]),
+               which(rownames(aggregated_data) == river_table$qsim_site[i]))
     if(length(found) > 0L){
-      river_table$value[i] <- output_table[[varName]][found]
+      river_table$value[i] <- aggregated_data[[varName]][found]
     }
   }
 
