@@ -6,9 +6,12 @@ ag_table <- readxl::read_xlsx(
 
 # translation between Qsim ID and verknet ID
 t_table <- read.table(
-  file = "C:/Users/mzamzo/Documents/impetus/process/river_id_table.csv",
+  file = system.file(package = "qsimVis",
+                     "extdata/scripts/impetus/river_id_table.csv"),
   header = TRUE,
   sep = ";")
+
+
 
 aggregated_data <- qsim_to_verknet_id(
   aggregated_data = ag_table,
