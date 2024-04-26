@@ -19,16 +19,25 @@
     <loc>https://kwb-r.github.io/qsimvis/news/index.html</loc>
   </url>
   <url>
+    <loc>https://kwb-r.github.io/qsimvis/reference/add_catchments.html</loc>
+  </url>
+  <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/add_coloredRivers.html</loc>
+  </url>
+  <url>
+    <loc>https://kwb-r.github.io/qsimvis/reference/add_districts.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/add_inflow.html</loc>
   </url>
   <url>
-    <loc>https://kwb-r.github.io/qsimvis/reference/add_polygons.html</loc>
+    <loc>https://kwb-r.github.io/qsimvis/reference/add_site_info.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/adverse_deviation_from_reference.html</loc>
+  </url>
+  <url>
+    <loc>https://kwb-r.github.io/qsimvis/reference/Berlin_add_boarder.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/critical_events.html</loc>
@@ -49,7 +58,13 @@
     <loc>https://kwb-r.github.io/qsimvis/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://kwb-r.github.io/qsimvis/reference/insert_downstreamNA.html</loc>
+  </url>
+  <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/interpolate_multipleNA.html</loc>
+  </url>
+  <url>
+    <loc>https://kwb-r.github.io/qsimvis/reference/load_geo.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/load_rivers.html</loc>
@@ -71,9 +86,6 @@
   </url>
   <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/same_inarow.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/qsimvis/reference/save_as_excel.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/qsimvis/reference/site_info_from_qsimID.html</loc>

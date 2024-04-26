@@ -51,14 +51,21 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_empty_map</span><span class="op">(</span><span class="va">rivers</span>, plot_toner <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_empty_map</span><span class="op">(</span>bbox <span class="op">=</span> <span class="cn">NULL</span>, rivers <span class="op">=</span> <span class="cn">NULL</span>, plot_toner <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>rivers</dt>
+    <dl><dt>bbox</dt>
+<dd><p>List as Bounding box with two vectors of length 2 for
+c(x_min, x_max) and c(y_min, y_max). If NULL, rivers will be used to
+define the bounding box. bbox overwrites rivers for bounding box definition.</p></dd>
+
+
+<dt>rivers</dt>
 <dd><p>List of data frames containing a river stretch (longitude and
-latitude sorted in direction of flow) combined with the Qsim site ID</p></dd>
+latitude) and values to be plotted. Created by functions <code><a href="load_rivers.html">load_rivers()</a></code> and
+<code><a href="extend_riverTable.html">extend_riverTable()</a></code></p></dd>
 
 
 <dt>plot_toner</dt>

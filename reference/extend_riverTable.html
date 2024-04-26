@@ -41,7 +41,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Adds quality categories to the river table</h1>
-      <small class="dont-index">Source: <a href="https://github.com/KWB-R/qsimVis/blob/HEAD/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/KWB-R/qsimVis/blob/HEAD/R/extend_river_table.R" class="external-link"><code>R/extend_river_table.R</code></a></small>
       <div class="d-none name"><code>extend_riverTable.Rd</code></div>
     </div>
 
@@ -51,14 +51,25 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_riverTable</span><span class="op">(</span><span class="va">river_table</span>, <span class="va">aggregated_data</span>, <span class="va">varName</span>, <span class="va">sixBreaks</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_riverTable</span><span class="op">(</span></span>
+<span>  <span class="va">rivers</span>,</span>
+<span>  <span class="va">river_id</span>,</span>
+<span>  <span class="va">aggregated_data</span>,</span>
+<span>  <span class="va">varName</span>,</span>
+<span>  <span class="va">sixBreaks</span>,</span>
+<span>  NA_processing <span class="op">=</span> <span class="st">"interpolation"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>river_table</dt>
-<dd><p>Table of one of the rivers loaded with
-<code><a href="load_rivers.html">load_rivers()</a></code></p></dd>
+    <dl><dt>rivers</dt>
+<dd><p>List of rivers loaded with <code><a href="load_rivers.html">load_rivers()</a></code></p></dd>
+
+
+<dt>river_id</dt>
+<dd><p>Character with verknet river ID that is one of the names of
+the rivers list</p></dd>
 
 
 <dt>aggregated_data</dt>
@@ -72,6 +83,12 @@
 
 <dt>sixBreaks</dt>
 <dd><p>Breaks defining the lower limits of the categories.</p></dd>
+
+
+<dt>NA_processing</dt>
+<dd><p>Either "interpolation" or "continuing".
+Defines if NA values between two sides are either interpolated (default) or
+kept constant based on an upstream value.</p></dd>
 
 </dl></div>
     <div class="section level2">
