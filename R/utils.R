@@ -1,23 +1,3 @@
-#' Get River, Section and location information from Qsim IDs
-#'
-#' @param assessment_list The assessment of a Qsim simulation
-#'
-site_info_from_qsimID<- function(assessment_list){
-  lapply(assessment_list, function(x){
-    if(is.data.frame((x))){
-      x[["river"]] <-  sapply(rownames(x), function(NAME){
-        strsplit(NAME, split = "_")[[1]][1]})
-
-      x[["section"]] <-  sapply(rownames(x), function(NAME){
-        strsplit(NAME, split = "_")[[1]][2]})
-
-      x[["km"]] <-  as.numeric(sapply(rownames(x), function(NAME){
-        strsplit(NAME, split = "_")[[1]][3]}))
-      x[order(x$km, decreasing = T),]
-    }
-  })
-}
-
 #' Calculates x- and y-scale based on longitude and lattitude data
 #'
 #' Get the right scale for plotting a map. While width must be defined,
@@ -62,68 +42,6 @@ getDimensions <- function(xlim, ylim, width = 10){
     p2 = c(xlim[2], ylim[2])) / 1000 # in km
 
   c("width" = width, "height" = y_dist / x_dist * width)
-}
-
-
-#' Adds quality categories to the river table
-#'
-#' As a result, each location is linked to a water quality value.
-#'
-#' @param river_table Table of one of the rivers loaded with
-#' [load_rivers()]
-#' @param aggregated_data A dataframe created by one of [deviating_hours()],
-#' [adverse_deviation_from_reference()] or [critical_events()]
-#' @param varName The column name of the agregated data in the output_table
-#' @param sixBreaks Breaks defining the lower limits of the categories.
-#'
-#' @details
-#' The qsim_misa_table does not provide information for every location within
-#' the river, since the local resolution of the qsim output differs from the
-#' river course data. Values between two known river sites are interpolated.
-#' The color scale cannot be changed. Since in all misa assessment parameters
-#' low values refer to a good water quality, the colors range from green for low
-#' values to red for high values.
-#'
-#' @return
-#' The input river_table extended by three columns: 1) "value" containing the
-#' exact value, 2) "quality" containing 6 different quality categories based on
-#' the defined breaks, 3) "color" assigning th color for plotting
-#'
-#' @importFrom utils data
-#'
-extend_riverTable <- function(
-    river_table, aggregated_data, varName, sixBreaks
-){
-  MisaColor <- NULL
-  data("MisaColor", envir = environment())
-
-  sixBreaks <- c(sixBreaks, Inf)
-  river_table$value <- NA
-  aggregated_data$qsim_site <- paste(aggregated_data$river,
-                                  aggregated_data$section,
-                                  aggregated_data$km,
-                                  sep = "_")
-
-  for(i in seq_len(nrow(aggregated_data))){
-    found <- c(which(aggregated_data$qsim_site == river_table$qsim_site[i]),
-               which(rownames(aggregated_data) == river_table$qsim_site[i]))
-    if(length(found) > 0L){
-      river_table$value[i] <- aggregated_data[[varName]][found]
-    }
-  }
-
-  river_table$value <-
-    round(interpolate_multipleNA(
-      data_vector = river_table$value,
-      max_na = 1000,
-      diff_x = river_table$distance_to_neighbour)[[1]], 1)
-
-  river_table$quality <-
-    cut(river_table$value, breaks = sixBreaks,
-        include.lowest = TRUE, ordered_result = TRUE)
-
-  river_table$color <- MisaColor[as.numeric(river_table$quality)]
-  river_table
 }
 
 #' Repeating values in a row within a Vector

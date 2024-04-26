@@ -51,40 +51,13 @@ load_rivers <- function(aggregated_data){
     qsim_km <- aggregated_data$km[i]
     if(verknet_river %in% names(rivers)){
     site_distance <- abs(rivers[[verknet_river]]$km - qsim_km)
-    nearest_location<- which(site_distance == min(site_distance))
+    nearest_location <- which(site_distance == min(site_distance))
     rivers[[verknet_river]]$qsim_site[nearest_location] <-
-      paste(aggregated_data$river[i],
-            aggregated_data$section[i],
-            aggregated_data$km[i],
-            sep = "_")
+      paste0(aggregated_data$river_name[i], "_",
+            aggregated_data$section_id[i], ".",
+            aggregated_data$section_name[i], "_",
+            aggregated_data$km[i])
     }
   }
-
   rivers
-}
-
-#' Changes Qsim Ids to Verknet IDs
-#'
-#'
-#' @param aggregated_data A dataframe created by one of [deviating_hours()],
-#' [adverse_deviation_from_reference()] or [critical_events()]
-#' @param translation_table Data frame of at least two columns: column number 1:
-#' Verknet ID, column with name "sim_ID": Qsim ID
-#'
-#' @export
-#'
-qsim_to_verknet_id <- function(aggregated_data, translation_table){
-  qsim_ids <- unlist(strsplit(x = translation_table$sim_ID, ","))
-  aggregated_data$verknet_river <- aggregated_data$river
-  for(qsim_id in qsim_ids){
-    df_row <- grep(pattern = qsim_id, x = translation_table$sim_ID)
-    verknet_id <- translation_table[[1]][df_row]
-    aggregated_data$verknet_river <-
-      gsub(
-        pattern = qsim_id,
-        replacement = verknet_id,
-        x = aggregated_data$verknet_river
-      )
-  }
-  aggregated_data
 }

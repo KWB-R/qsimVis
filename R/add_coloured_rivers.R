@@ -1,9 +1,9 @@
 #' Adds colour scaled riverdata to a map
 #'
-#' @param rivers A list of rivers loaded with [load_rivers()]
+#' @param ext_rivers A list of rivers loaded with [load_rivers()] and extended
+#' with [extend_riverTable()]
 #' @param aggregated_data A dataframe created by one of [deviating_hours()],
 #' [adverse_deviation_from_reference()] or [critical_events()]
-#' @param varName The column name of the agregated data in the output_table
 #' @param sixBreaks Breaks defining the lower limits of the categories.
 #' @param dataType Used only for the Legend. If "time" is used, it is assumed
 #' that the first water quality category is between 0 and a value above 0, while
@@ -15,25 +15,15 @@
 #' @export
 #'
 add_coloredRivers <- function(
-    rivers, aggregated_data, sixBreaks, varName, dataType = "time",
-    LegendTitle = dataType, LegendLocation ="right"
+    ext_rivers,
+    aggregated_data,
+    sixBreaks,
+    dataType = "time",
+    LegendTitle = dataType,
+    LegendLocation ="right"
 ){
 
-  # if data frame was not stored and loaded qsim sites must added.They correspond
-  # to the rownames of the table
-  if(!("river" %in% colnames(aggregated_data))){
-    aggregated_data$qsim_site <- rownames(aggregated_data)
-  }
 
-  ext_rivers <- lapply(seq_along(rivers), function(i) {
-    qsimVis:::extend_riverTable(
-      river_table = rivers[[i]],
-      aggregated_data = aggregated_data,
-      varName = varName,
-      sixBreaks = sixBreaks)
-  })
-
-  sixBreaks <- c(sixBreaks, Inf)
   MisaColor <- NULL
   data("MisaColor", envir = environment())
 

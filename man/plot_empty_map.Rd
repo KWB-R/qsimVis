@@ -4,11 +4,16 @@
 \alias{plot_empty_map}
 \title{Creates an map Plot, dimensions based on rivers and Qsim output data}
 \usage{
-plot_empty_map(rivers, plot_toner = FALSE)
+plot_empty_map(bbox = NULL, rivers = NULL, plot_toner = FALSE)
 }
 \arguments{
+\item{bbox}{List as Bounding box with two vectors of length 2 for
+c(x_min, x_max) and c(y_min, y_max). If NULL, rivers will be used to
+define the bounding box. bbox overwrites rivers for bounding box definition.}
+
 \item{rivers}{List of data frames containing a river stretch (longitude and
-latitude sorted in direction of flow) combined with the Qsim site ID}
+latitude) and values to be plotted. Created by functions \code{\link[=load_rivers]{load_rivers()}} and
+\code{\link[=extend_riverTable]{extend_riverTable()}}}
 
 \item{plot_toner}{If TRUE a toner map is used as background}
 }

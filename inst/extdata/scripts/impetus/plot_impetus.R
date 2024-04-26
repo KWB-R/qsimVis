@@ -3,7 +3,6 @@ ag_table <- readxl::read_xlsx(
   path = "C:/Users/mzamzo/Documents/impetus/output/output_table.xlsx",
   sheet = 2)
 
-
 # translation between Qsim ID and verknet ID
 t_table <- read.table(
   file = system.file(package = "qsimVis",
@@ -11,28 +10,41 @@ t_table <- read.table(
   header = TRUE,
   sep = ";")
 
-
-
-aggregated_data <- qsim_to_verknet_id(
+# der zweite Teil der Bezeichnung von des Strangs (section) sollte in die Übersetzungstabelle eingehen
+# sonst wird zum Beispiel ein Teil des WHK nicht geplotted, weil er als BSK erkannt wird
+aggregated_data <- qsimVis::qsim_to_verknet_id(
   aggregated_data = ag_table,
   translation_table = t_table)
 
 rivers <- qsimVis::load_rivers(aggregated_data = aggregated_data)
 
-# plot empty map
-qsimVis::plot_empty_map(rivers = rivers)
-
-# Add Shape Background
-add_polygons()
-
-# Add colored Rivers
-qsimVis::add_coloredRivers(
+rivers_ext <- lapply(
+  X = names(rivers), FUN = qsimVis::extend_riverTable,
   rivers = rivers,
   aggregated_data = aggregated_data,
   varName = "adverse_dev",
   sixBreaks = c(0, 0.1, 0.3, 0.5, 0.7, 0.9),
+  NA_processing = "interpolation")
+names(rivers_ext) <- names(rivers)
+
+# plot empty map
+qsimVis::plot_empty_map(rivers = rivers_ext, plot_toner = FALSE)
+qsimVis::plot_empty_map(
+  bbox = list(c(13, 13.8),
+              c(52.29755, 52.68))
+)
+
+# Add Shape Background
+qsimVis::Berlin_add_boarder()
+
+# Add colored Rivers
+qsimVis::add_coloredRivers(
+  ext_rivers = rivers_ext,
+  aggregated_data = aggregated_data,
+  sixBreaks = c(0, 0.1, 0.3, 0.5, 0.7, 0.9),
   dataType = "time",
-  LegendTitle = "Durchschnittlicher \nAbwassergehalt in %")
+  LegendTitle = "Durchschnittlicher \nAbwassergehalt in %"
+)
 
 # Add CSO volume
 # qsimVis::add_inflow(

@@ -38,7 +38,7 @@ output <- list(
       worst = 100,
       good_values = "low"))
 
-head(output$def_hours)
+
 # ,
 #   "crit_events" = qsimVis::critical_events(
 #     dataFrame = df_pro,
@@ -55,11 +55,13 @@ head(output$def_hours)
 #     recovery_value = NULL,
 #     return_event_positions = TRUE))
 
+output <- lapply(output, function(x){
+  qsimVis::add_site_info(df_in = x, v_qsim_ids = rownames(x))
+})
+head(output$adv_deviation)
 
+writexl::write_xlsx(x = output, path = file.path(path, "output", "output_table.xlsx"))
 
-qsimVis::save_as_excel(
-  list_of_aggregated_data = output,
-  path = file.path(path, "output", "output_table.xlsx"))
 
 
 

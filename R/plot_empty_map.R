@@ -1,7 +1,11 @@
 #' Creates an map Plot, dimensions based on rivers and Qsim output data
 #'
+#' @param bbox List as Bounding box with two vectors of length 2 for
+#' c(x_min, x_max) and c(y_min, y_max). If NULL, rivers will be used to
+#' define the bounding box. bbox overwrites rivers for bounding box definition.
 #' @param rivers List of data frames containing a river stretch (longitude and
-#' latitude sorted in direction of flow) combined with the Qsim site ID
+#' latitude) and values to be plotted. Created by functions [load_rivers()] and
+#' [extend_riverTable()]
 #'
 #' @param plot_toner If TRUE a toner map is used as background
 #' @importFrom grDevices png dev.off dev.new
@@ -11,14 +15,23 @@
 #' @export
 #'
 plot_empty_map <- function(
-    rivers, plot_toner = FALSE
+    bbox = NULL, rivers = NULL, plot_toner = FALSE
 ){
-  xlim <- range(unlist(
-    lapply(rivers, function(x){range(x$x[x$qsim_site != ""])})
-  ))
-  ylim <- range(unlist(
-    lapply(rivers, function(x){range(x$y[x$qsim_site != ""])})
-  ))
+  if(is.null(bbox)){
+    if(is.null(rivers)){
+      stop("One of 'bbox' or 'rivers' must be passed to the function.")
+    }
+    xlim <- range(unlist(
+      lapply(rivers, function(x){range(x$x[!is.na(x$value)])})
+    ))
+    ylim <- range(unlist(
+      lapply(rivers, function(x){range(x$y[!is.na(x$value)])})
+    ))
+  } else{
+    xlim <- bbox[[1]]
+    ylim <- bbox[[2]]
+  }
+
   plotDim <- getDimensions(xlim = xlim, ylim = ylim, width = 10)
   width_factor <- plotDim[1]/plotDim[2]
   xpdDim <- 6

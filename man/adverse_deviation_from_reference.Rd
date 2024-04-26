@@ -4,7 +4,12 @@
 \alias{adverse_deviation_from_reference}
 \title{Relative adverse deviation from a reference}
 \usage{
-adverse_deviation_from_reference(dataFrame, reference, worst = 0)
+adverse_deviation_from_reference(
+  dataFrame,
+  reference,
+  worst = 0,
+  good_values = "high"
+)
 }
 \arguments{
 \item{dataFrame}{Data frame with time in first column and parameter
@@ -15,6 +20,9 @@ the reference_vector as column.}
 data frame that contains the same column names as dataFrame}
 
 \item{worst}{A numerical value which is the worst case}
+
+\item{good_values}{Character, either "high" or "low" defining what would be
+best}
 }
 \value{
 Numeric value between 0 and 1

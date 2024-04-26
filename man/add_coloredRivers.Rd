@@ -5,25 +5,22 @@
 \title{Adds colour scaled riverdata to a map}
 \usage{
 add_coloredRivers(
-  rivers,
-  output_table,
+  ext_rivers,
+  aggregated_data,
   sixBreaks,
-  varName,
   dataType = "time",
   LegendTitle = dataType,
   LegendLocation = "right"
 )
 }
 \arguments{
-\item{rivers}{A list of rivers loaded with \code{\link[=load_rivers]{load_rivers()}}}
+\item{ext_rivers}{A list of rivers loaded with \code{\link[=load_rivers]{load_rivers()}} and extended
+with \code{\link[=extend_riverTable]{extend_riverTable()}}}
 
-\item{output_table}{Table of aggregated data created by one of the
-functions \code{\link[=critical_events]{critical_events()}}, \code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or
-\code{\link[=critical_events]{critical_events()}}}
+\item{aggregated_data}{A dataframe created by one of \code{\link[=deviating_hours]{deviating_hours()}},
+\code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or \code{\link[=critical_events]{critical_events()}}}
 
 \item{sixBreaks}{Breaks defining the lower limits of the categories.}
-
-\item{varName}{The column name of the agregated data in the output_table}
 
 \item{dataType}{Used only for the Legend. If "time" is used, it is assumed
 that the first water quality category is between 0 and a value above 0, while

@@ -15,8 +15,6 @@ Depends:
 Suggests: 
     covr
 Imports:
-    writexl,
-    readxl,
     geosphere,
     ggmap
 Encoding: UTF-8
