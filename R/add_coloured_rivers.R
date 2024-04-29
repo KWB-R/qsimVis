@@ -34,7 +34,7 @@ add_coloredRivers <- function(
       lines(x = ext_rivers[[j]]$x[i:(i+1)],
             y = ext_rivers[[j]]$y[i:(i+1)],
             col = ext_rivers[[j]]$color[i+1],
-            lwd = 6)
+            lwd = 4)
     }
   }
 

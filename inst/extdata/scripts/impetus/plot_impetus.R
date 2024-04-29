@@ -28,14 +28,15 @@ rivers_ext <- lapply(
 names(rivers_ext) <- names(rivers)
 
 # plot empty map
-qsimVis::plot_empty_map(rivers = rivers_ext, plot_toner = FALSE)
+# qsimVis::plot_empty_map(rivers = rivers_ext, plot_toner = FALSE)
 qsimVis::plot_empty_map(
   bbox = list(c(13, 13.8),
-              c(52.29755, 52.68))
+              c(52.35, 52.68))
 )
 
 # Add Shape Background
 qsimVis::Berlin_add_boarder()
+qsimVis::Berlin_add_waterbodies()
 
 # Add colored Rivers
 qsimVis::add_coloredRivers(

@@ -50,7 +50,7 @@ add_catchments <- function(){
 #' @export
 #'
 add_districts <- function(){
-  geo <- load_geo(region = "Berlin", Rdata_file = "berlin_boarder")
+  geo <- load_geo(region = "berlin", Rdata_file = "berlin_boarder")
   polygon(
     x = geo$gis_coordinates[,1],
     y = geo$gis_coordinates[,2],
@@ -66,12 +66,34 @@ add_districts <- function(){
 #' @importFrom graphics polygon
 #' @export
 #'
-Berlin_add_boarder <- function(bg_color = "gray80"){
-  geo <- load_geo(region = "Berlin", Rdata_file = "berlin_boarder")
+Berlin_add_boarder <- function(bg_color = "gray60"){
+  geo <- load_geo(region = "berlin", Rdata_file = "berlin_boarder")
   polygon(
     x = geo$gis_coordinates[,"X"],
     y = geo$gis_coordinates[,"Y"],
     col = bg_color
   )
+}
+
+#' Add Berlin boarder to a map
+#'
+#' Polygons is drawn in lightgray
+#' @param bg_color Character string or [rgb()] for the polygon background color
+#'
+#' @importFrom graphics polygon
+#' @export
+#'
+Berlin_add_waterbodies <- function(bg_color = "lightblue"){
+  geo <- load_geo(region = "berlin", Rdata_file = "berlin_waterbodies_ordnung1")
+  polies <- unique(geo$gis_coordinates[,"L2"])
+  for(poly in polies){
+    poly_rows <- geo$gis_coordinates[geo$gis_coordinates[,"L2"] == poly,]
+    polygon(
+      x = poly_rows[,"X"],
+      y = poly_rows[,"Y"],
+      col = bg_color, border = NA
+    )
+  }
+
 }
 
