@@ -9,9 +9,9 @@
 #' [adverse_deviation_from_reference()] or [critical_events()]
 #' @param varName The column name of the agregated data in the output_table
 #' @param sixBreaks Breaks defining the lower limits of the categories.
-#' @param NA_processing Either "interpolation" or "continuing".
-#' Defines if NA values between two sides are either interpolated (default) or
-#' kept constant based on an upstream value.
+#' @param NA_processing Either "interpolation" or "steps".
+#' Defines if NA values between two locations are either interpolated (default)
+#' or kept constant based on an upstream value.
 #'
 #' @details
 #' The qsim_misa_table does not provide information for every location within
@@ -43,8 +43,8 @@ extend_riverTable <- function(
 
   river_table[["value"]] <- NA
   # filter results for river id
-  data_table <- aggregated_data[aggregated_data$verknet_river == river_id &
-                                  !is.na(aggregated_data$verknet_river),]
+  data_table <- aggregated_data[aggregated_data$qsimVis_river == river_id &
+                                  !is.na(aggregated_data$qsimVis_river),]
 
   # apply results to closest verknet node, if not already defined
   km_verknet <- river_table$km
@@ -52,10 +52,11 @@ extend_riverTable <- function(
     km_result <- data_table$km[i]
     km_diff <- abs(km_result - km_verknet)
     node_match <- which(km_diff == min(km_diff))
+    # select nodes only, that were not selected before
     single_node_match <- node_match[which(is.na(river_table$value[node_match]))]
     if(length(single_node_match) == 1L){
       river_table$value[single_node_match] <- data_table[[varName]][i]
-    } else if(length(single_node_match) > 1L){
+    } else if(length(single_node_match) > 1L){ # if more than one points of equal distance, use first of them
       river_table$value[single_node_match[1]] <- data_table[[varName]][i]
     }
   }
@@ -80,11 +81,11 @@ extend_riverTable <- function(
 
   river_table$value <-
     if(NA_processing == "interpolation"){
-      round(interpolate_multipleNA(
+      interpolate_multipleNA(
         data_vector = river_table$value,
         max_na = 1000,
-        diff_x = river_table$distance_to_neighbour)[[1]], 1)
-    } else if(NA_processing == "continuing"){
+        diff_x = river_table$distance_to_neighbour)[[1]]
+    } else if(NA_processing == "steps"){
       insert_downstreamNA(data_vector = river_table$value)
     }
 
