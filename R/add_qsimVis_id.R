@@ -30,14 +30,16 @@
 add_qsimVis_id <- function(aggregated_data, translation_table){
   separate_project_ids <- strsplit(x = translation_table$section_name, ",")
   project_ids <- unlist(separate_project_ids)
-  aggregated_data$qsimVis_size <-
-    aggregated_data$qsimVis_source <-
+  aggregated_data$qsimVis_source <-
     aggregated_data$qsimVis_river <- NA
 
   for(project_id in project_ids){
     df_row <- which(sapply(separate_project_ids, function(x){project_id %in% x}))
     if(length(df_row) == 0L){
       stop("Project ID: ", project_id, " not found in translation table")
+    }
+    if(length(df_row) > 1L){
+      stop("Project ID: ", project_id, " is part of two or more rivers.")
     }
     qsimVis_id <- translation_table[["ID"]][df_row]
     qsimVis_source <- ifelse(
@@ -47,11 +49,12 @@ add_qsimVis_id <- function(aggregated_data, translation_table){
     )
     qsimVis_size <- translation_table[["river_size"]][df_row]
 
-    section_rows <- grep(pattern = project_id, x = aggregated_data$section_name)
+    section_rows <- grep(
+      pattern = paste0("^", project_id, "$") ,
+      x = aggregated_data$section_name
+    )
     aggregated_data$qsimVis_river[section_rows] <- qsimVis_id
     aggregated_data$qsimVis_source[section_rows] <- qsimVis_source
-    aggregated_data$qsimVis_size[section_rows] <- qsimVis_size
-
   }
   aggregated_data
 }
