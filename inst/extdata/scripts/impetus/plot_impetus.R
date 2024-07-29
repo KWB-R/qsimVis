@@ -14,7 +14,8 @@ t_table <- read.table(
 # sonst wird zum Beispiel ein Teil des WHK nicht geplotted, weil er als BSK erkannt wird
 aggregated_data <- qsimVis::add_qsimVis_id(
   aggregated_data = ag_table,
-  translation_table = t_table)
+  translation_table = t_table
+)
 
 # hier sollte nur "section_name" und "km" ausgegeben werden
 rivers <- qsimVis::load_rivers(
@@ -23,12 +24,36 @@ rivers <- qsimVis::load_rivers(
   path_manual = system.file(package = "qsimVis", "extdata/manually_added_rivers")
 )
 
+# prepare plot
+sixBreaks = c(0, 0.1, 0.3, 0.5, 0.7, 0.9)
+
+####### Example: Difference between "interpolation" and "steps" ################
+example_river <- "Neukoellner Schifffahrtskanal"
+
+qsimVis::extend_riverTable(
+  rivers = rivers,
+  river_id = example_river,
+  aggregated_data = aggregated_data,
+  varName = "adverse_dev",
+  sixBreaks = sixBreaks,
+  NA_processing = "interpolation")
+
+qsimVis::extend_riverTable(
+  rivers = rivers,
+  river_id = example_river,
+  aggregated_data = aggregated_data,
+  varName = "adverse_dev",
+  sixBreaks = sixBreaks,
+  NA_processing = "steps")
+
+################################################################################
+
 rivers_ext <- lapply(
   X = names(rivers), FUN = qsimVis::extend_riverTable,
   rivers = rivers,
   aggregated_data = aggregated_data,
   varName = "adverse_dev",
-  sixBreaks = c(0, 0.1, 0.3, 0.5, 0.7, 0.9),
+  sixBreaks = sixBreaks,
   NA_processing = "interpolation")
 names(rivers_ext) <- names(rivers)
 
@@ -47,7 +72,7 @@ qsimVis::Berlin_add_waterbodies()
 qsimVis::add_coloredRivers(
   ext_rivers = rivers_ext,
   aggregated_data = aggregated_data,
-  sixBreaks = c(0, 0.1, 0.3, 0.5, 0.7, 0.9),
+  sixBreaks = sixBreaks,
   dataType = "time",
   LegendTitle = "Durchschnittlicher \nAbwassergehalt in %"
 )
