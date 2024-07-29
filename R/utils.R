@@ -83,3 +83,17 @@ same_inarow <- function(v){
   )
 }
 
+#' Lists all filenames of csv files in a folder
+#'
+#' @param path The file path
+#'
+#'
+available_rivers <- function(path){
+  files <- dir(path, full.names = TRUE)
+  filenames <- dir(path, full.names = FALSE)
+  unique(
+    sapply(filenames, function(x){
+      strsplit(x, split = ".csv")[[1]][1]
+    })
+  )
+}

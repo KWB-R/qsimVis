@@ -4,12 +4,30 @@
 \alias{load_rivers}
 \title{Reads river data}
 \usage{
-load_rivers(aggregated_data)
+load_rivers(aggregated_data, translation_table, path_manual = NULL)
 }
 \arguments{
 \item{aggregated_data}{A dataframe created by one of \code{\link[=deviating_hours]{deviating_hours()}},
 \code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or \code{\link[=critical_events]{critical_events()}} with verknet IDs
 as rownames}
+
+\item{translation_table}{Project specific translation dataframe that
+contains verknet data and project specific IDs. Column names must be
+\itemize{
+\item "ID": Verknet ID or ID of manually added rivers which are also the
+filnames of the river csv tables
+\item "verknet_BWaStrIdNr": The water body number in verknet. If NA the river
+information is assumed to be added manually.
+\item "Bezeichnung": The real water body name
+\item "section_name": The project specific ID of the whole river or a river
+section. Can be multiple IDs per waterbody, separated by ",", however, must
+be unique.
+\item "river_size": Information about the line width to be drawn from 1 (thin)
+to 3 (big).
+}}
+
+\item{path_manual}{A path to manually added river tables. If NULL (default)
+no manually added rivers are assumed.}
 }
 \description{
 Reads all csv files starting with "river" in a folder and combines it in a

@@ -26,9 +26,9 @@ the rivers list}
 
 \item{sixBreaks}{Breaks defining the lower limits of the categories.}
 
-\item{NA_processing}{Either "interpolation" or "continuing".
-Defines if NA values between two sides are either interpolated (default) or
-kept constant based on an upstream value.}
+\item{NA_processing}{Either "interpolation" or "steps".
+Defines if NA values between two locations are either interpolated (default)
+or kept constant based on an upstream value.}
 }
 \value{
 The input river_table extended by three columns: 1) "value" containing the
