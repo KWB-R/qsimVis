@@ -76,11 +76,13 @@ insert_downstreamNA <- function(
   to_fill <- which(nas)
   by_using <- which(!nas)
 
-  sapply(to_fill, function(x){
+  fill_values <- sapply(to_fill, function(x){
     rank_diff <- (x - by_using)
     upper_value <- by_using[which(rank_diff < 0)[1]]
-    data_vector[x] <- data_vector[upper_value]
+    data_vector[upper_value]
   })
+  data_vector[to_fill] <- fill_values
+  data_vector
 }
 
 #' Linear interpolation for one or more missing values
