@@ -64,11 +64,11 @@ load_rivers <- function(aggregated_data, translation_table, path_manual = NULL){
   names(rivers) <- verknet_files
 
   if(!is.null(path_manual)){
-    manual_files <- manual_rivers[manual_rivers %in% rivers_needed]
+    # all manually added rivers are plotted
     n_verknet <- length(rivers)
     rivers <- c(
       rivers,
-      lapply(manual_files, function(file){
+      lapply(manual_rivers, function(file){
         river <- read.table(
           file = file.path(path_manual, paste0(file, ".csv")),
           header = T,
@@ -79,7 +79,7 @@ load_rivers <- function(aggregated_data, translation_table, path_manual = NULL){
         river
     })
     )
-    names(rivers)[-(1:n_verknet)] <- manual_files
+    names(rivers)[-(1:n_verknet)] <- manual_rivers
   }
 
   for(i in 1:nrow(aggregated_data)){
