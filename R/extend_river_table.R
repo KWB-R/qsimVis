@@ -46,53 +46,55 @@ extend_riverTable <- function(
   data_table <- aggregated_data[aggregated_data$qsimVis_river == river_id &
                                   !is.na(aggregated_data$qsimVis_river),]
 
-  # apply results to closest verknet node, if not already defined
-  km_verknet <- river_table$km
-  for(i in seq_len(nrow(data_table))){
-    km_result <- data_table$km[i]
-    km_diff <- abs(km_result - km_verknet)
-    node_match <- which(km_diff == min(km_diff))
-    # select nodes only, that were not selected before
-    single_node_match <- node_match[which(is.na(river_table$value[node_match]))]
-    if(length(single_node_match) == 1L){
-      river_table$value[single_node_match] <- data_table[[varName]][i]
-    } else if(length(single_node_match) > 1L){ # if more than one points of equal distance, use first of them
-      river_table$value[single_node_match[1]] <- data_table[[varName]][i]
+  if(nrow(data_table) > 0L){
+    # apply results to closest verknet node, if not already defined
+    km_verknet <- river_table$km
+    for(i in seq_len(nrow(data_table))){
+      km_result <- data_table$km[i]
+      km_diff <- abs(km_result - km_verknet)
+      node_match <- which(km_diff == min(km_diff))
+      # select nodes only, that were not selected before
+      single_node_match <- node_match[which(is.na(river_table$value[node_match]))]
+      if(length(single_node_match) == 1L){
+        river_table$value[single_node_match] <- data_table[[varName]][i]
+      } else if(length(single_node_match) > 1L){ # if more than one points of equal distance, use first of them
+        river_table$value[single_node_match[1]] <- data_table[[varName]][i]
+      }
     }
+
+    # if the last and the first verknet node are not defined, use the closest
+    # data node, depennding on distance
+    tolerable_distance <- 0.5 # km
+    if(is.na(river_table$value[1])){
+      first_value <- which(!is.na(river_table$value))[1]
+      if(river_table$km[first_value] - river_table$km[1] < tolerable_distance){
+        river_table$value[1] <- river_table$value[first_value]
+      }
+    }
+
+    l <- nrow(river_table)
+    if(is.na(river_table$value[l])){
+      last_value <- rev(which(!is.na(river_table$value)))[1]
+      if(river_table$km[l] - river_table$km[last_value] < tolerable_distance){
+        river_table$value[l] <- river_table$value[last_value]
+      }
+    }
+
+    river_table$value <-
+      if(NA_processing == "interpolation"){
+        interpolate_multipleNA(
+          data_vector = river_table$value,
+          max_na = 1000,
+          diff_x = river_table$distance_to_neighbour)[[1]]
+      } else if(NA_processing == "steps"){
+        insert_downstreamNA(data_vector = river_table$value)
+      }
+
+    river_table$quality <-
+      cut(river_table$value, breaks = sixBreaks,
+          include.lowest = TRUE, ordered_result = TRUE)
+
+    river_table$color <- MisaColor[as.numeric(river_table$quality)]
   }
-
-  # if the last and the first verknet node are not defined, use the closest
-  # data node, depennding on distance
-  tolerable_distance <- 0.5 # km
-  if(is.na(river_table$value[1])){
-    first_value <- which(!is.na(river_table$value))[1]
-    if(river_table$km[first_value] - river_table$km[1] < tolerable_distance){
-      river_table$value[1] <- river_table$value[first_value]
-    }
-  }
-
-  l <- nrow(river_table)
-  if(is.na(river_table$value[l])){
-    last_value <- rev(which(!is.na(river_table$value)))[1]
-    if(river_table$km[l] - river_table$km[last_value] < tolerable_distance){
-      river_table$value[l] <- river_table$value[last_value]
-    }
-  }
-
-  river_table$value <-
-    if(NA_processing == "interpolation"){
-      interpolate_multipleNA(
-        data_vector = river_table$value,
-        max_na = 1000,
-        diff_x = river_table$distance_to_neighbour)[[1]]
-    } else if(NA_processing == "steps"){
-      insert_downstreamNA(data_vector = river_table$value)
-    }
-
-  river_table$quality <-
-    cut(river_table$value, breaks = sixBreaks,
-        include.lowest = TRUE, ordered_result = TRUE)
-
-  river_table$color <- MisaColor[as.numeric(river_table$quality)]
   river_table
 }
