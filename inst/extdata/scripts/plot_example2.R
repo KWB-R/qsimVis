@@ -54,7 +54,7 @@ qsimVis::add_coloredRivers(
   ext_rivers = rivers_ext,
   aggregated_data = aggregated_data,
   sixBreaks = sixBreaks,
-  LegendTitle = "Durchschnittlicher \nAbwassergehalt in %"
+  LegendTitle = "BSB5"
 )
 
 View(rivers_ext$SOW)
@@ -65,7 +65,7 @@ rivers_ext <- lapply(
   X = names(rivers), FUN = qsimVis::extend_riverTable,
   rivers = rivers,
   aggregated_data = ag_extended,
-  varName = "parameter",
+  varName = "BSB5",
   sixBreaks = sixBreaks,
   NA_processing = "steps")
 names(rivers_ext) <- names(rivers)
@@ -87,7 +87,7 @@ qsimVis::add_coloredRivers(
   aggregated_data = aggregated_data,
   sixBreaks = sixBreaks,
   dataType = "time",
-  LegendTitle = "Durchschnittlicher \nAbwassergehalt in %"
+  LegendTitle = "BSB5"
 )
 
 

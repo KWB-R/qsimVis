@@ -25,7 +25,7 @@ rivers <- qsimVis::load_rivers(
 )
 
 # prepare plot
-sixBreaks = c(0, 0.1, 0.3, 0.5, 0.7, 0.9)
+sixBreaks = c(0,0.05, 0.1, 0.2, 0.4, 0.7, 0.9)
 
 ####### Example: Difference between "interpolation" and "steps" ################
 example_river <- "Neukoellner Schifffahrtskanal"
