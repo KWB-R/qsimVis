@@ -33,16 +33,16 @@ interpolate_multipleNA <- function(
     for(i in 1:nrow(rfi)){
       beg_i <- rfi$starts_at[i] - 1
       end_i <- rfi$ends_at[i] + 1
-      before <- data_vector[beg_i]
-      after <- data_vector[end_i]
+      downstream <- data_vector[beg_i]
+      upstream <- data_vector[end_i]
 
       new_values <-  if(is.null(diff_x)){
         # interpolated values
-        seq(before, after, length.out = rfi$repeats[i] + 2)
+        seq(upstream, downstream, length.out = rfi$repeats[i] + 2)
 
       } else {
         x <- cumsum(diff_x[beg_i:end_i])
-        new_values <- (x - min(x)) / diff(range(x)) * (before - after) + after
+        new_values <- (x - min(x)) / diff(range(x)) * (upstream- downstream) + downstream
       }
 
       new_values <- new_values[-c(1, length(new_values))]
