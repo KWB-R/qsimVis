@@ -89,9 +89,7 @@ load_rivers <- function(aggregated_data, translation_table, path_manual = NULL){
     site_distance <- abs(rivers[[qsimVis_river]]$km - qsim_km)
     nearest_location <- which(site_distance == min(site_distance))
     rivers[[qsimVis_river]]$qsim_site[nearest_location] <-
-      paste0(aggregated_data$river_name[i], "_",
-            aggregated_data$section_id[i], ".",
-            aggregated_data$section_name[i], "_",
+      paste0(aggregated_data$section_name[i], "_",
             aggregated_data$km[i])
     }
   }
