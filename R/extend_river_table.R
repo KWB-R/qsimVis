@@ -34,6 +34,9 @@ extend_riverTable <- function(
     NA_processing = "interpolation"
 ){
 
+  if(!(varName %in% colnames(aggregated_data))){
+    stop(varName, " is no column in 'aggregated_data'")
+  }
   river_table <- rivers[[river_id]]
   # river table needs to be ordered by river km
   river_table <- river_table[order(river_table$km),]
