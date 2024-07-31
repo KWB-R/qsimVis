@@ -1,26 +1,26 @@
-"ID";"verknet_BWaStrIdNr";"Bezeichnung";"section_name";river_size
-"BSK";"5401";"Berlin-Spandauer (Schifffahrts)kanal";"BSSK,HzK";2
-"WHK";"5403";"Westhafenkanal";"WHK";2
-"CVK";"5404";"Charlottenburger Verbindungskanal (zur Spree)";"CVK";2
-"DaW";"5501";"Dahme-Wasserstraße";"DaW";2
-"WdS";"5524";"Wernsdorfer Seenkette";"Kro";2
-"HOW";"5801";"Havel-Oder-Wasserstraße";"HOW";2
-"TgS";"5809";"Tegeler See";"TeS";2
-"RüG";"6301";"Rüdersdorfer Gewässer";"RueG";2
-"SOW";"6501";"Spree-Oder-Wasserstraße";"OSK,SOW,SedS";2
-"LWK";"6504";"Landwehrkanal";"Lwk,LwK";2
-"RmS";"6510";"Rummelsburger See";"RuS";2
-"MgS";"6513";"Müggelspree";"MgS";3
-"GKr";"6527";"Große Krampe";"GrKr";1
-"GoK";"6528";"Gosener Kanal und Seddiner See";"Sed,GoK";1
-"GoG";"6532";"Gosener Graben";"GoGr";1
-"TeK";"6601";"Teltowkanal";"TeK";2
-"GrK";"6602";"Griebnitzkanal";"GrK";2
-"BVK";"6604";"Britzer Verbindungskanal (zur Spree)";"BVK";2
-"UHW";"6701";"Untere Havel-Wasserstraße (Spandau - Plaue)";"UHW";3
-"GWS";"6707";"Großer Wannsee";"GrW";3
-"PHv";"6712";"Potsdamer Havel";"End";3
-"Neukoellner Schifffahrtskanal";"NA";"Neuköllner Schifffahrts-Kanal";"Nsk,NsK,NSK";3
-"Baeke";"NA";"Bäke";"Bae";1
-"SpK";"NA";"???";"SpK";1
-"Stoe";"NA";"???";"Stoe";1
+"ID";"verknet_BWaStrIdNr";"Bezeichnung";"section_name"
+"BSK";"5401";"Berlin-Spandauer (Schifffahrts)kanal";"BSSK,HzK"
+"WHK";"5403";"Westhafenkanal";"WHK"
+"CVK";"5404";"Charlottenburger Verbindungskanal (zur Spree)";"CVK"
+"DaW";"5501";"Dahme-Wasserstraße";"DaW"
+"WdS";"5524";"Wernsdorfer Seenkette";"Kro"
+"HOW";"5801";"Havel-Oder-Wasserstraße";"HOW"
+"TgS";"5809";"Tegeler See";"TeS"
+"RüG";"6301";"Rüdersdorfer Gewässer";"RueG"
+"SOW";"6501";"Spree-Oder-Wasserstraße";"OSK,SOW,SedS"
+"LWK";"6504";"Landwehrkanal";"Lwk,LwK"
+"RmS";"6510";"Rummelsburger See";"RuS"
+"MgS";"6513";"Müggelspree";"MgS"
+"GKr";"6527";"Große Krampe";"GrKr"
+"GoK";"6528";"Gosener Kanal und Seddiner See";"Sed,GoK"
+"GoG";"6532";"Gosener Graben";"GoGr"
+"TeK";"6601";"Teltowkanal";"TeK"
+"GrK";"6602";"Griebnitzkanal";"GrK"
+"BVK";"6604";"Britzer Verbindungskanal (zur Spree)";"BVK"
+"UHW";"6701";"Untere Havel-Wasserstraße (Spandau - Plaue)";"UHW"
+"GWS";"6707";"Großer Wannsee";"GrW"
+"PHv";"6712";"Potsdamer Havel";"End"
+"Neukoellner Schifffahrtskanal";"NA";"Neuköllner Schifffahrts-Kanal";"Nsk,NsK,NSK"
+"Baeke";"NA";"Bäke";"Bae"
+"SpK";"NA";"???";"SpK"
+"Stoe";"NA";"???";"Stoe"
