@@ -22,15 +22,16 @@ information is assumed to be added manually.
 \item "section_name": The project specific ID of the whole river or a river
 section. Can be multiple IDs per waterbody, separated by ",", however, must
 be unique.
-\item "river_size": Information about the line width to be drawn from 1 (thin)
-to 3 (big).
+}}
 }
-
-@details
-The Verknet data is available here: https://www.gdws.wsv.bund.de/DE/service/karten/03_VerkNet-BWaStr/VerkNet-BWaStr_node.html}
+\value{
+A data extended aggregated_data data frame by qsimVis_river and qsimVis_source
 }
 \description{
 River ID can either be defined by verknet data (see details) or a manually
 entered. The output tables lists the the source of river information and
 the defined size of the river for plotting as additional columns.
+}
+\details{
+The Verknet data is available here: https://www.gdws.wsv.bund.de/DE/service/karten/03_VerkNet-BWaStr/VerkNet-BWaStr_node.html
 }

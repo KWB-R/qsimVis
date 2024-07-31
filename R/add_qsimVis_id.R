@@ -18,36 +18,39 @@
 #' * "section_name": The project specific ID of the whole river or a river
 #'  section. Can be multiple IDs per waterbody, separated by ",", however, must
 #'  be unique.
-#'  * "river_size": Information about the line width to be drawn from 1 (thin)
-#'  to 3 (big).
 #'
-#'  @details
-#'  The Verknet data is available here: https://www.gdws.wsv.bund.de/DE/service/karten/03_VerkNet-BWaStr/VerkNet-BWaStr_node.html
+#' @details
+#' The Verknet data is available here: https://www.gdws.wsv.bund.de/DE/service/karten/03_VerkNet-BWaStr/VerkNet-BWaStr_node.html
 #'
+#' @return
+#' A data extended aggregated_data data frame by qsimVis_river and qsimVis_source
 #
 #' @export
 #'
-add_qsimVis_id <- function(aggregated_data, translation_table){
+add_qsimVis_id <- function(
+    aggregated_data, translation_table
+){
   separate_project_ids <- strsplit(x = translation_table$section_name, ",")
   project_ids <- unlist(separate_project_ids)
-  aggregated_data$qsimVis_source <-
-    aggregated_data$qsimVis_river <- NA
+
+  aggregated_data$qsimVis_source <- aggregated_data$qsimVis_river <- NA
 
   for(project_id in project_ids){
-    df_row <- which(sapply(separate_project_ids, function(x){project_id %in% x}))
-    if(length(df_row) == 0L){
+    id_row <- which(sapply(separate_project_ids, function(x){project_id %in% x}))
+
+    if(length(id_row) == 0L){
       stop("Project ID: ", project_id, " not found in translation table")
     }
-    if(length(df_row) > 1L){
+    if(length(id_row) > 1L){
       stop("Project ID: ", project_id, " is part of two or more rivers.")
     }
-    qsimVis_id <- translation_table[["ID"]][df_row]
+
+    qsimVis_id <- translation_table[["ID"]][id_row]
     qsimVis_source <- ifelse(
-      test = is.na(translation_table[["verknet_BWaStrIdNr"]][df_row]),
+      test = is.na(translation_table[["verknet_BWaStrIdNr"]][id_row]),
       yes = "manually_added",
       no = "verknet"
     )
-    qsimVis_size <- translation_table[["river_size"]][df_row]
 
     section_rows <- grep(
       pattern = paste0("^", project_id, "$") ,
