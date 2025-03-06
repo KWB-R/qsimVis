@@ -18,6 +18,10 @@
 #' * "section_name": The project specific ID of the whole river or a river
 #'  section. Can be multiple IDs per waterbody, separated by ",", however, must
 #'  be unique.
+#' @param id_source A string defining the part of the site name which is used
+#' to find the river name in the database. This must be the ID that is given in
+#' the "section_name" column of the translation table. Usually this
+#' is "river_name" but it can be changed to "section_name" instead.
 #'
 #' @details
 #' The Verknet data is available here: https://www.gdws.wsv.bund.de/DE/service/karten/03_VerkNet-BWaStr/VerkNet-BWaStr_node.html
@@ -28,7 +32,7 @@
 #' @export
 #'
 add_qsimVis_id <- function(
-    aggregated_data, translation_table
+    aggregated_data, translation_table, id_source = "river_name"
 ){
   separate_project_ids <- strsplit(x = translation_table$section_name, ",")
   project_ids <- unlist(separate_project_ids)
@@ -54,7 +58,7 @@ add_qsimVis_id <- function(
 
     section_rows <- grep(
       pattern = paste0("^", project_id, "$") ,
-      x = aggregated_data$section_name
+      x = aggregated_data[[id_source]]
     )
     aggregated_data$qsimVis_river[section_rows] <- qsimVis_id
     aggregated_data$qsimVis_source[section_rows] <- qsimVis_source
