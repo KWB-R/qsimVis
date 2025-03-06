@@ -8,7 +8,15 @@ QSIM_prepare(qsim_output_file, parameter_name = "VO2")
 }
 \arguments{
 \item{qsim_output_file}{filename (including path) in which the output from
-Gsim is listed}
+Qsim is listed. The format of the output file needs to be a ; - seperated
+csv. Columns must contain:
+\itemize{
+\item "ID": Character - project specific ID of the river
+\item "Section": Character - project specific ID of the section (can be an empty column)
+\item "Km": Numeric - kilometer of the simulated value
+\item "Date": Character - Datetime of the simulated value (format "\%d.\%m.\%Y \%H:\%M)
+\item "Q": Numeric - Flow in m³/s (can be an empty column)
+}}
 
 \item{parameter_name}{A String defining the column name of the parameter to
 be visualized. "VO2" is the default (Oxygen concentration).}

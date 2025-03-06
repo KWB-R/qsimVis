@@ -5,7 +5,13 @@
 #' time column and several parameter columns (one per site)
 #'
 #' @param qsim_output_file filename (including path) in which the output from
-#' Gsim is listed
+#' Qsim is listed. The format of the output file needs to be a ; - seperated
+#' csv. Columns must contain:
+#' * "ID": Character - project specific ID of the river
+#' * "Section": Character - project specific ID of the section (can be an empty column)
+#' * "Km": Numeric - kilometer of the simulated value
+#' * "Date": Character - Datetime of the simulated value (format "%d.%m.%Y %H:%M)
+#' * "Q": Numeric - Flow in m³/s (can be an empty column)
 #' @param parameter_name A String defining the column name of the parameter to
 #' be visualized. "VO2" is the default (Oxygen concentration).
 #'
@@ -30,7 +36,7 @@ QSIM_prepare <-function(
     dec = ","
   )
 
-  df_in$site <- paste(df_in[[1]], df_in[[2]], df_in[[3]], sep = "_")
+  df_in$site <- paste(df_in[[1]], df_in[[2]], df_in[[3]], sep = "__")
   df_in$para <- df_in[[parameter_name]]
 
   if(!("Q" %in% colnames(df_in))){
