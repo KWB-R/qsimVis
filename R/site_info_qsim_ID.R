@@ -14,14 +14,8 @@
 #' @export
 #'
 site_info_from_qsimID<- function(qsim_id){
-  s1 <- strsplit(qsim_id, split = "_")[[1]]
-  if(length(s1) != 3L){
-    warning(qsim_id, " is not in the correct Qsim ID format.")
-  }
+  s1 <- strsplit(qsim_id, split = "__")[[1]]
   s2 <- strsplit(s1[2], "\\.")[[1]]
-  if(length(s2) != 2L){
-    warning(qsim_id, " is not in the correct Qsim ID format.")
-  }
   list("river_name" = s1[1],
        "section_id" = s2[1],
        "section_name" = s2[2],
