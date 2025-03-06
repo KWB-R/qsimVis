@@ -6,7 +6,7 @@ ag_table <- readxl::read_xlsx(
 # translation between Qsim ID and verknet ID
 t_table <- read.table(
   file = system.file(package = "qsimVis",
-                     "extdata/scripts/impetus/river_id_table.csv"),
+                     "extdata/scripts/impetus/BelinWaterModel_id_table.csv"),
   header = TRUE,
   sep = ";")
 
@@ -29,7 +29,7 @@ rivers <- qsimVis::load_rivers(
 sixBreaks = c(0, 0.05, 0.1, 0.2, 0.4, 0.7,0.9)
 
 ####### Example: Difference between "interpolation" and "steps" ################
-example_river <- "Neukoellner Schifffahrtskanal"
+example_river <- "Neukoellner_Schifffahrtskanal"
 
 qsimVis::extend_riverTable(
   rivers = rivers,
@@ -55,7 +55,7 @@ rivers_ext <- lapply(
   aggregated_data = aggregated_data,
   varName = "adverse_dev",
   sixBreaks = sixBreaks,
-  NA_processing = "interpolation")
+  NA_processing = "steps")
 names(rivers_ext) <- names(rivers)
 
 # plot empty map
