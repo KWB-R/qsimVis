@@ -23,12 +23,18 @@ QSIM_prepare <-function(
     parameter_name = "VO2"
 ){
 
-  df_in <- read.table(
-    file = qsim_output_file,
-    header = TRUE,
-    sep = ";",
-    dec = ","
-  )
+  # df_in <- read.table(
+  #   file = qsim_output_file,
+  #   header = TRUE,
+  #   sep = ";",
+  #   dec = ","
+  # )
+
+  df_in <- data.table::fread(file = qsim_output_file,
+                             sep = ";",
+                             dec = ",",
+                             header = TRUE
+                             )
 
   df_in$site <- paste(df_in[[1]], df_in[[2]], df_in[[3]], sep = "_")
   df_in$para <- df_in[[parameter_name]]
