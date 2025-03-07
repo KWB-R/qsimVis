@@ -1,20 +1,35 @@
 # Documentation of aggregation and visualization of Qsim results
-path <- "C:/Users/mzamzo/Documents/impetus"
+
+path <- "C:/Users/dwicke/Documents/work/IMPETUS/Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser"
+# path <- "C:/Users/mzamzo/Documents/impetus"
 
 # load and prepare qsim data
 df_in1 <- qsimVis::QSIM_prepare(
-  qsim_output_file = file.path(path, "input/qsim_export",
-    "S0 _Abwasseranteile_Alle_Stationen_Spandau.csv"
+  qsim_output_file = file.path(path, "Daten/SenUMVK/Daten_Masterplan_Wasser/Daten_Schumacher/Teilmodell_T4-SH_Spandau",
+#                               "S0 _Abwasseranteile_Alle_Stationen_Spandau.csv"
+#                               "S3.25_Abwasseranteile_Alle_Stationen_Spandau.csv"
+                               "S3.50_Abwasseranteile_Alle_Stationen_Spandau.csv"
+#  qsim_output_file = file.path(path, "input/qsim_export",
   ), parameter_name = "KONSSY"
 )
+
 df_in2 <- qsimVis::QSIM_prepare(
-  qsim_output_file = file.path(path, "input/qsim_export",
+#  qsim_output_file = file.path(path, "input/qsim_export",
+  qsim_output_file = file.path(path, "Daten/SenUMVK/Daten_Masterplan_Wasser/Daten_Schumacher/Teilmodell_T1-SH_Mühlendamm",
                                "T1 S0_Abwasseranteile_Alle_Stationen_T1.csv"
-  ), parameter_name = "KONSSY"
+#                               "T1 S3.25_Abwasseranteile_Alle_Stationen_T1.csv"
+#                               "T1 S3.50_Abwasseranteile_Alle_Stationen_T1.csv"
+#                               "T1 S3.75_Abwasseranteile_Alle_Stationen_T1.csv"
+    ), parameter_name = "KONSSY"
 )
+
 df_in3 <- qsimVis::QSIM_prepare(
-  qsim_output_file = file.path(path, "input/qsim_export",
-                               "T3 S0_Abwasseranteile_Alle_Stationen_T3.csv"
+  qsim_output_file = file.path(path, "Daten/SenUMVK/Daten_Masterplan_Wasser/Daten_Schumacher/Teilmodell_T3-SH_Brandenburg",
+#                                "T3 S0_Abwasseranteile_Alle_Stationen_T3.csv"
+#                                "T3 S3.25_Abwasseranteile_Alle_Stationen_T3.csv"
+#                                "T3 S3.50_Abwasseranteile_Alle_Stationen_T3.csv"
+                                "T3 S3.75_Abwasseranteile_Alle_Stationen_T3.csv"
+#  qsim_output_file = file.path(path, "input/qsim_export",
   ), parameter_name = "KONSSY"
 )
 
@@ -29,7 +44,8 @@ output <- list(
   "def_hours" =
     qsimVis::deviating_hours(
     dataFrame = df_pro,
-    thresholds = c(1, 2, 4, 8,16),
+    thresholds = c(10, 20, 40, 60, 80),
+    #thresholds = c(1, 2, 4, 8, 16),
     dev_type = "egt"),
   "adv_deviation" =
     qsimVis::adverse_deviation_from_reference(
@@ -38,6 +54,7 @@ output <- list(
       worst = 100,
       good_values = "low"))
 
+head(output$def_hours)
 
 # ,
 #   "crit_events" = qsimVis::critical_events(
@@ -60,8 +77,11 @@ output <- lapply(output, function(x){
 })
 head(output$adv_deviation)
 
-writexl::write_xlsx(x = output, path = file.path(path, "output", "output_table.xlsx"))
+writexl::write_xlsx(x = output, path = file.path(path, "Viewer_Skript", "output_table.xlsx"))
 
+#qsimVis::save_as_excel(
+#  list_of_aggregated_data = output,
+#  path = file.path(path, "Viewer_Skript", "output_table.xlsx"))
 
 
 
