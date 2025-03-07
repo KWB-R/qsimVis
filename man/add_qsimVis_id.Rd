@@ -4,7 +4,7 @@
 \alias{add_qsimVis_id}
 \title{Adds the river ID of qsimVis package to the table}
 \usage{
-add_qsimVis_id(aggregated_data, translation_table)
+add_qsimVis_id(aggregated_data, translation_table, id_source = "river_name")
 }
 \arguments{
 \item{aggregated_data}{An input dataframe. Either manually entered or created
@@ -23,6 +23,11 @@ information is assumed to be added manually.
 section. Can be multiple IDs per waterbody, separated by ",", however, must
 be unique.
 }}
+
+\item{id_source}{A string defining the part of the site name which is used
+to find the river name in the database. This must be the ID that is given in
+the "section_name" column of the translation table. Usually this
+is "river_name" but it can be changed to "section_name" instead.}
 }
 \value{
 A data extended aggregated_data data frame by qsimVis_river and qsimVis_source
