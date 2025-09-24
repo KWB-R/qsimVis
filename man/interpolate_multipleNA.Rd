@@ -5,8 +5,6 @@
 \title{Linear interpolation for one or more missing values}
 \usage{
 interpolate_multipleNA(data_vector, max_na, diff_x = NULL)
-
-interpolate_multipleNA(data_vector, max_na, diff_x = NULL)
 }
 \arguments{
 \item{data_vector}{Numeric vector of measurements (including NA values)}
@@ -19,14 +17,8 @@ to the data_vector. Only needed if the difference is not constant.}
 \value{
 A list containing the data vector with interpolated NA value as well as an
 information about the amount of NA's interpolated
-
-A list containing the data vector with interpolated NA value as well as an
-information about the amount of NA's interpolated
 }
 \description{
-All sections of NA values that are smaller or equal as a defined maximal
-number of NA's are interpolated
-
 All sections of NA values that are smaller or equal as a defined maximal
 number of NA's are interpolated
 }
