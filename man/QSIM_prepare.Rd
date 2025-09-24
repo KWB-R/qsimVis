@@ -2,34 +2,47 @@
 % Please edit documentation in R/qsim_prepare.R
 \name{QSIM_prepare}
 \alias{QSIM_prepare}
-\title{Read Qsim output and save or return table for aggregation and visualization}
+\title{Read Qsim output and reshape data for further processing}
 \usage{
-QSIM_prepare(qsim_output_file, parameter_name = "VO2")
+QSIM_prepare(
+  qsim_output_file,
+  parameter_name = "VO2",
+  date_column_name = "date",
+  id_column_name = "ID",
+  km_column_name = "km",
+  flow_column_name = "Q",
+  section_column_name = NULL
+)
 }
 \arguments{
 \item{qsim_output_file}{filename (including path) in which the output from
 Qsim is listed. The format of the output file needs to be a ; - seperated
-csv. Columns must contain:
-\itemize{
-\item "ID": Character - project specific ID of the river
-\item "Section": Character - project specific ID of the section (can be an empty column)
-\item "Km": Numeric - kilometer of the simulated value
-\item "Date": Character - Datetime of the simulated value (format "\%d.\%m.\%Y \%H:\%M)
-\item "Q": Numeric - Flow in m³/s (can be an empty column)
-}}
+csv with "," as a decimal separator.}
 
 \item{parameter_name}{A String defining the column name of the parameter to
 be visualized. "VO2" is the default (Oxygen concentration).}
+
+\item{date_column_name, id_column_name, km_column_name}{A String defining the
+obligatory column names.}
+
+\item{flow_column_name, section_column_name}{String defining the column names.
+If NULL, the columns will be filled by NA values (flow column) or empty
+chracaters (section column)}
 }
 \value{
-The saved table contains a timestamp column in Central European Time and
-several oxygen columns in mg/L
+A list of 2 tables, where the number of rows correspond to the number if
+timepstamps and the number of columns corresponds to the number of sites plus
+1 timestamp column. Table 1 contains information about the defined parameter.
+Table 2 contains flow information if available.
+
+Both tables are sorted by the timestamp which are in ETC/GMT+1 (Winter time
+in central Europe)
 }
 \description{
 This function combines the Qsim site information of the first 3 columns
-to unique sitenames and spreads the Qsim output table into a table with one
-time column and several parameter columns (one per site)
+to unique site names and spreads the Qsim output table for the defined
+parameter into a table with one time column and several site columns
 }
 \details{
-Saves table as CSV File ";"-separated if parameter return_table is set to TRUE
+The flow column needs to be in m³/s
 }
