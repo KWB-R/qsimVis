@@ -26,9 +26,9 @@
 #' @export
 #'
 adverse_deviation_from_reference <- function(
-    dataFrame,reference, worst = 0, good_values = "high"
+    dataFrame, reference, worst = 0, good_values = "high"
 ){
-  dates <- dataFrame[,1]
+  dates <- dataFrame[["posixDateTime"]]
   total_hours <- as.numeric(difftime(
     time1 = max(dates),
     time2 = min(dates),
@@ -41,7 +41,7 @@ adverse_deviation_from_reference <- function(
   ))
   t_step <- resolution / total_hours
 
-  d <- dataFrame[,-1]
+  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame))]
   sites <- colnames(d)
 
   if(is.character(reference)){
