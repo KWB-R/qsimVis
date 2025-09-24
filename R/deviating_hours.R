@@ -1,12 +1,12 @@
-#' Hours of defficienc within one event
+#' The sum of hours exceeding or falling below threshold values
 #'
-#' @param dataFrame Data frame with time column "posicDateTime and parameter
+#' @param dataFrame Data frame with time column "posixDateTime" and parameter
 #' values per site
-#' @param thresholds Oxygen threshold values used for the assessment in mg/L
-#' @param dev_type String definint the type of deviation. "elt" for equal or
+#' @param thresholds Threshold values used for the assessment
+#' @param dev_type String defining the type of deviation. "elt" for equal or
 #' lower than, "egt" for equal or greater than.
 #'
-#' @return Data frane with rows per site and columns per threshold
+#' @return Data frame with rows per site and columns per threshold
 #'
 #' @export
 #'
@@ -15,14 +15,14 @@ deviating_hours <- function(
     thresholds = c(0.5, 1, 1.5, 2, 5),
     dev_type = "elt"
 ){
-  dates <- dataFrame[,1]
+  dates <- dataFrame[["posixDateTime"]]
 
   resolution <- as.numeric(difftime(
     time1 = dates[2],
     time2 = dates[1],
     units = "hours"))
 
-  d <- dataFrame[,-1]
+  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame))]
 
   df_out <- as.data.frame(t(apply(d, 2, function(x){
     sapply(thresholds, function(threshold) {
@@ -31,11 +31,16 @@ deviating_hours <- function(
       } else if(dev_type == "egt"){
         sum(x >= threshold, na.rm = FALSE) * resolution
       } else {
-        message("deviation type unkown")
+        stop("deviation type unkown")
       }
     })
   })))
-  colnames(df_out) <- paste0("below_", thresholds)
+  cn <- if(dev_type == "elt"){
+    "below"
+  } else if(dev_type == "egt"){
+    "above"
+  }
+  colnames(df_out) <- paste(cn, thresholds, sep = "_")
   df_out
 }
 

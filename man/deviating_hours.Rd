@@ -2,22 +2,22 @@
 % Please edit documentation in R/deviating_hours.R
 \name{deviating_hours}
 \alias{deviating_hours}
-\title{Hours of defficienc within one event}
+\title{The sum of hours exceeding or falling below threshold values}
 \usage{
 deviating_hours(dataFrame, thresholds = c(0.5, 1, 1.5, 2, 5), dev_type = "elt")
 }
 \arguments{
-\item{dataFrame}{Data frame with time column "posicDateTime and parameter
+\item{dataFrame}{Data frame with time column "posixDateTime" and parameter
 values per site}
 
-\item{thresholds}{Oxygen threshold values used for the assessment in mg/L}
+\item{thresholds}{Threshold values used for the assessment}
 
-\item{dev_type}{String definint the type of deviation. "elt" for equal or
+\item{dev_type}{String defining the type of deviation. "elt" for equal or
 lower than, "egt" for equal or greater than.}
 }
 \value{
-Data frane with rows per site and columns per threshold
+Data frame with rows per site and columns per threshold
 }
 \description{
-Hours of defficienc within one event
+The sum of hours exceeding or falling below threshold values
 }
