@@ -9,13 +9,14 @@ critical_events(
   separating_hours,
   deficiency_hours,
   threshold,
+  dev_type = "elt",
   recovery_value = NULL,
   return_event_positions = FALSE
 )
 }
 \arguments{
-\item{dataFrame}{Data frame with time in first column and parameter
-values per site.}
+\item{dataFrame}{Data frame with posixDateTime column and at leaste 2 site
+columns}
 
 \item{separating_hours}{Minimal time period between two values below
 threshold to count as separate events.}
@@ -24,8 +25,12 @@ threshold to count as separate events.}
 
 \item{threshold}{Numeric in the same unit as the data vector}
 
+\item{dev_type}{Either "elt" (equal or lower than) or "egt" (equal or higher
+than) to find events below or above the threshold value.}
+
 \item{recovery_value}{If this is not NULL (default) two events are only
-separated if a numerical revocvery value is exceeded between two deficits.}
+separated if a numerical revocvery value is exceeded between two deficits.
+That does not impact the event seperation by time (seperating_hours).}
 
 \item{return_event_positions}{Instead the number of events, the events
 starting and end positions are returned, corresponding to the data vector}
