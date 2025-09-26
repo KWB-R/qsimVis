@@ -41,6 +41,10 @@ deviating_hours <- function(
     "above"
   }
   colnames(df_out) <- paste(cn, thresholds, sep = "_")
+  df_out <- qsimVis::add_site_info(
+    df_in = df_out,
+    v_qsim_ids = rownames(df_out)
+  )
   df_out
 }
 

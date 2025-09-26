@@ -16,8 +16,14 @@ adverse_deviation_from_reference(
 values per site. If no reference data frame is provided it must include
 the reference_vector as column.}
 
-\item{reference}{Column name of the reference in dataFrame or a seperate
-data frame that contains the same column names as dataFrame}
+\item{reference}{The reference can either be
+\itemize{
+\item A reference within dataFrame -> column name as character
+\item A reference vector valid for all sites -> reference numeric vector of length
+equal to the number of rows of dataFrame
+\item individual reference for each site -> a reference data frame with the same
+shape and column names as dataFrame (posixDateTime column does not matter)
+}}
 
 \item{worst}{A numerical value which is the worst case}
 

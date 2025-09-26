@@ -133,6 +133,11 @@ critical_events <- function(
   if(return_event_positions){
     do.call(rbind, v)
   } else {
-    data.frame("events" = v)
+    df_out <- data.frame("events" = v)
+    df_out <- qsimVis::add_site_info(
+      df_in = df_out,
+      v_qsim_ids = rownames(df_out)
+    )
+    df_out
   }
 }

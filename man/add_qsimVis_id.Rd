@@ -4,7 +4,11 @@
 \alias{add_qsimVis_id}
 \title{Adds the river ID of qsimVis package to the table}
 \usage{
-add_qsimVis_id(aggregated_data, translation_table, id_source = "river_name")
+add_qsimVis_id(
+  aggregated_data,
+  translation_table,
+  model_id_column = "river_name"
+)
 }
 \arguments{
 \item{aggregated_data}{An input dataframe. Either manually entered or created
@@ -14,20 +18,18 @@ by one of \code{\link[=deviating_hours]{deviating_hours()}},\code{\link[=adverse
 \item{translation_table}{Project specific translation dataframe that
 contains verknet data and project specific IDs. Column names must be
 \itemize{
-\item "ID": Verknet ID or ID of manually added rivers which are also the
+\item "qsimVis_ID": Verknet ID or ID of manually added rivers which are also the
 filnames of the river csv tables
 \item "verknet_BWaStrIdNr": The water body number in verknet. If NA the river
 information is assumed to be added manually.
 \item "Bezeichnung": The real water body name
-\item "section_name": The project specific ID of the whole river or a river
+\item "model_IDs": The project specific ID of the whole river or a river
 section. Can be multiple IDs per waterbody, separated by ",", however, must
 be unique.
 }}
 
-\item{id_source}{A string defining the part of the site name which is used
-to find the river name in the database. This must be the ID that is given in
-the "section_name" column of the translation table. Usually this
-is "river_name" but it can be changed to "section_name" instead.}
+\item{model_id_column}{A string defining the column of the aggregated_data
+table which contains the model ID in the translation_table.}
 }
 \value{
 A data extended aggregated_data data frame by qsimVis_river and qsimVis_source

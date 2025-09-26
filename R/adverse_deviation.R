@@ -5,8 +5,12 @@
 #' @param dataFrame Data frame with time in first column and parameter
 #' values per site. If no reference data frame is provided it must include
 #' the reference_vector as column.
-#' @param reference Column name of the reference in dataFrame or a seperate
-#' data frame that contains the same column names as dataFrame
+#' @param reference The reference can either be
+#' * A reference within dataFrame -> column name as character
+#' * A reference vector valid for all sites -> reference numeric vector of length
+#' equal to the number of rows of dataFrame
+#' * individual reference for each site -> a reference data frame with the same
+#' shape and column names as dataFrame (posixDateTime column does not matter)
 #' @param worst A numerical value which is the worst case
 #' @param good_values Character, either "high" or "low" defining what would be
 #' best
@@ -45,24 +49,24 @@ adverse_deviation_from_reference <- function(
   sites <- colnames(d)
 
   if(is.character(reference)){
-    reference_vector <- dataFrame[,reference]
-
+    reference <- dataFrame[,reference]
+  }
+  if(is.vector(reference)){
     v <- apply(d, 2, function(data_vector){
       if(good_values == "high"){
-        deviation_amount <- (data_vector - worst) / (reference_vector - worst)
+        deviation_amount <- (data_vector - worst) / (reference - worst)
         # Adverse if data is lower than reference and reference is higher than worst
         adverse_deviation <-
-          data_vector < reference_vector & reference_vector > worst
+          data_vector < reference & reference > worst
       } else if(good_values == "low"){
-        deviation_amount <-  1 - (data_vector - worst) / (reference_vector - worst)
+        deviation_amount <-  1 - (data_vector - worst) / (reference - worst)
         # Adverse if data is higher than reference and reference is lower than worst
         adverse_deviation <-
-          data_vector > reference_vector & reference_vector < worst
+          data_vector > reference & reference < worst
       }
       round(sum(deviation_amount[adverse_deviation]) * t_step, digits = 3)
     })
-
-  } else {
+  } else if(is.data.frame(reference)){
     v <- apply(sites, 2, function(site){
       data_vector <- d[,site]
       reference_vector <- reference[,site]
@@ -80,5 +84,10 @@ adverse_deviation_from_reference <- function(
       round(sum(deviation_amount[adverse_deviation]) * t_step, digits = 3)
     })
   }
-  data.frame("adverse_dev" = v)
+  df_out <- data.frame("adverse_dev" = v)
+  df_out <- qsimVis::add_site_info(
+    df_in = df_out,
+    v_qsim_ids = rownames(df_out)
+  )
+  df_out
 }
