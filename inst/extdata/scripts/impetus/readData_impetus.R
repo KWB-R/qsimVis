@@ -13,9 +13,9 @@ file1 <-
 
 file2 <-
   "T1 S0_Abwasseranteile_Alle_Stationen_T1.csv"
-  # "T1 S3.25_Abwasseranteile_Alle_Stationen_T1.csv"
-  # "T1 S3.50_Abwasseranteile_Alle_Stationen_T1.csv"
-  # "T1 S3.75_Abwasseranteile_Alle_Stationen_T1.csv"
+# "T1 S3.25_Abwasseranteile_Alle_Stationen_T1.csv"
+# "T1 S3.50_Abwasseranteile_Alle_Stationen_T1.csv"
+# "T1 S3.75_Abwasseranteile_Alle_Stationen_T1.csv"
 
 file3 <-
   # "T3 S0_Abwasseranteile_Alle_Stationen_T3.csv"
@@ -48,44 +48,83 @@ gc()
 
 # Aggregate data
 df_para <- model_data$para
-df_para$best <- 0
+reference_vector <- rep(0, nrow(df_para))
 
 output <- list(
   "def_hours" =
     qsimVis::deviating_hours(
-    dataFrame = df_para,
-    thresholds = c(10, 20, 40, 60, 80)/100,
-    #thresholds = c(1, 2, 4, 8, 16),
-    dev_type = "egt"),
+      dataFrame = df_para,
+      # thresholds = c(10, 20, 40, 60, 80),
+      thresholds = c(1, 2, 4, 8, 16),
+      dev_type = "egt"),
   "adv_deviation" =
     qsimVis::adverse_deviation_from_reference(
       dataFrame = df_para,
-      reference = "best",
-      worst = 1,
-      good_values = "low"))
-
-head(output$def_hours)
-
-,
+      reference = reference_vector,
+      worst = 100,
+      good_values = "low"),
   "crit_events" = qsimVis::critical_events(
-    dataFrame = df_pro,
-    deficiency_hours = 0.5,
+    dataFrame = df_para,
+    deficiency_hours = 1,
     separating_hours = 12,
-    threshold = 1.5,
+    threshold = 10,
     recovery_value = NULL,
     return_event_positions = FALSE),
   "crit_periods" = qsimVis::critical_events(
-    dataFrame = df_pro,
-    deficiency_hours = 0.5,
-    separating_hours = 5 * 24,
-    threshold = 1.5,
+    dataFrame = df_para,
+    deficiency_hours = 1,
+    separating_hours = 12,
+    threshold = 10,
     recovery_value = NULL,
-    return_event_positions = TRUE))
+    return_event_positions = TRUE)
+)
 
-output <- lapply(output, function(x){
-  qsimVis::add_site_info(df_in = x, v_qsim_ids = rownames(x))
-})
 head(output$adv_deviation)
+
+# Combine river strecht and simulations data
+ag_table <- output$adv_deviation
+unique(ag_table$river_name)
+
+rivers <- qsimVis::prepare_rivers(
+  aggregated_data = ag_table,
+  value_column = "adverse_dev",
+  path_manual = system.file(package = "qsimVis", "extdata/manually_added_rivers"),
+  gap_filling = "steps"
+)
+
+# plot data
+rivers <- lapply(
+  rivers,
+  qsimVis::value_to_classes,
+  classBreaks = c(0, 0.05, 0.1, 0.2, 0.4, 0.7,0.9)
+)
+
+# qsimVis::plot_empty_map(rivers = rivers_ext, plot_toner = FALSE)
+qsimVis::plot_empty_map(
+  bbox = list(c(13, 13.8),
+              c(52.35, 52.68))
+)
+
+# Add Shape Background
+qsimVis::Berlin_add_boarder()
+qsimVis::Berlin_add_waterbodies()
+
+# Add colored Rivers
+qsimVis::add_coloredRivers(
+  ext_rivers = rivers,
+  aggregated_data = aggregated_data,
+  sixBreaks = c(0, 0.05, 0.1, 0.2, 0.4, 0.7,0.9),
+  dataType = "time",
+  LegendTitle = "Durchschnittlicher \nAbwassergehalt"
+)
+
+
+
+
+
+
+
+
 
 writexl::write_xlsx(x = output, path = file.path(path, "Viewer_Skript", "output_table.xlsx"))
 
