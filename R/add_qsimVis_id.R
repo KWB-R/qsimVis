@@ -10,18 +10,16 @@
 #' [critical_events()]
 #' @param translation_table Project specific translation dataframe that
 #' contains verknet data and project specific IDs. Column names must be
-#' * "ID": Verknet ID or ID of manually added rivers which are also the
+#' * "qsimVis_ID": Verknet ID or ID of manually added rivers which are also the
 #' filnames of the river csv tables
 #' * "verknet_BWaStrIdNr": The water body number in verknet. If NA the river
 #' information is assumed to be added manually.
 #' * "Bezeichnung": The real water body name
-#' * "section_name": The project specific ID of the whole river or a river
+#' * "model_IDs": The project specific ID of the whole river or a river
 #'  section. Can be multiple IDs per waterbody, separated by ",", however, must
 #'  be unique.
-#' @param id_source A string defining the part of the site name which is used
-#' to find the river name in the database. This must be the ID that is given in
-#' the "section_name" column of the translation table. Usually this
-#' is "river_name" but it can be changed to "section_name" instead.
+#' @param model_id_column A string defining the column of the aggregated_data
+#' table which contains the model ID in the translation_table.
 #'
 #' @details
 #' The Verknet data is available here: https://www.gdws.wsv.bund.de/DE/service/karten/03_VerkNet-BWaStr/VerkNet-BWaStr_node.html
@@ -32,12 +30,12 @@
 #' @export
 #'
 add_qsimVis_id <- function(
-    aggregated_data, translation_table, id_source = "river_name"
+    aggregated_data, translation_table, model_id_column = "river_name"
 ){
-  separate_project_ids <- strsplit(x = translation_table$section_name, ",")
+  separate_project_ids <- strsplit(x = translation_table$model_IDs, ",")
   project_ids <- unlist(separate_project_ids)
 
-  aggregated_data$qsimVis_source <- aggregated_data$qsimVis_river <- NA
+  aggregated_data$qsimVis_source <- aggregated_data$qsimVis_ID <- NA
 
   for(project_id in project_ids){
     id_row <- which(sapply(separate_project_ids, function(x){project_id %in% x}))
@@ -49,19 +47,19 @@ add_qsimVis_id <- function(
       stop("Project ID: ", project_id, " is part of two or more rivers.")
     }
 
-    qsimVis_id <- translation_table[["ID"]][id_row]
+    qsimVis_ID <- translation_table[["qsimVis_ID"]][id_row]
     qsimVis_source <- ifelse(
       test = is.na(translation_table[["verknet_BWaStrIdNr"]][id_row]),
       yes = "manually_added",
       no = "verknet"
     )
 
-    section_rows <- grep(
+    site_rows <- grep(
       pattern = paste0("^", project_id, "$") ,
-      x = aggregated_data[[id_source]]
+      x = aggregated_data[[model_id_column]]
     )
-    aggregated_data$qsimVis_river[section_rows] <- qsimVis_id
-    aggregated_data$qsimVis_source[section_rows] <- qsimVis_source
+    aggregated_data$qsimVis_ID[site_rows] <- qsimVis_ID
+    aggregated_data$qsimVis_source[site_rows] <- qsimVis_source
   }
   aggregated_data
 }
