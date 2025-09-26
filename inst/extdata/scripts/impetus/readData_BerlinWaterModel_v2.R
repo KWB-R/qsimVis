@@ -34,9 +34,9 @@ output <- list(
   "def_hours" =
     qsimVis::deviating_hours(
     dataFrame = df_pro,
-    thresholds = c(0,10, 20, 40, 60, 80)/100,
-    #thresholds = c(1, 2, 4, 8, 16),
-    dev_type = "egt"),
+    thresholds = c(5, 10, 15, 20, 40, 60)/100, # Anzahl flexibel
+    # thresholds = c(0,10, 20, 40, 60, 80)/100,
+    dev_type = "egt"),  # auch "elt" = equal or lower than möglich
   "adv_deviation" =
     qsimVis::adverse_deviation_from_reference(
       dataFrame = df_pro,
@@ -45,7 +45,7 @@ output <- list(
       good_values = "low"),
   "crit_events" = qsimVis::critical_events(
     dataFrame = df_pro,
-    dev_type = "egt",
+    dev_type = "egt", # auch "elt" = equal or lower than möglich
     deficiency_hours = 24,
     separating_hours = 0,
     threshold = 0.6,
@@ -67,13 +67,20 @@ rivers <- qsimVis::prepare_rivers(
   mapping_table = mapping_table,
   aggregated_data = output$adv_deviation,
   value_column = "adverse_dev",
+  # aggregated_data = output$def_hours,
+  # value_column = "above_0.6",
   path_manual = system.file(package = "qsimVis", "extdata/manually_added_rivers"),
   gap_filling = "steps"
 )
 
+classBreaks <-
+  # c(0, 0.05, 0.1, 0.15, 0.25, 0.5, 1)
+  # c(0, 720, 2160, 4320, 8760, 43800, 184056)
+  # c(0, 2160, 4320, 8760, 43800, 87600, 184056)
+
 rivers <- qsimVis::value_to_classes(
   river_list = rivers,
-  classBreaks = c(0, 0.05, 0.1, 0.2, 0.4, 0.7, 0.9)
+  classBreaks = classBreaks
 )
 
 # plot data
@@ -91,8 +98,10 @@ qsimVis::Berlin_add_waterbodies()
 qsimVis::add_coloredRivers(
   ext_rivers = rivers,
   aggregated_data = aggregated_data,
-  sixBreaks = c(0, 0.05, 0.1, 0.2, 0.4, 0.7,0.9),
+  sixBreaks = classBreaks,
   dataType = "time",
+  # LegendTitle = "Durchschnittlicher \nRegenwasseranteil"
+  # LegendTitle = "Überschreitungsdauer [h] \n60% Regenanteil"
   LegendTitle = "Durchschnittlicher \nAbwassergehalt"
 )
 
