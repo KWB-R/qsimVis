@@ -8,7 +8,6 @@
 #' @param aggregated_data A dataframe created by one of [deviating_hours()],
 #' [adverse_deviation_from_reference()] or [critical_events()]
 #' @param varName The column name of the agregated data in the output_table
-#' @param sixBreaks Breaks defining the lower limits of the categories.
 #' @param NA_processing Either "interpolation" or "steps".
 #' Defines if NA values between two locations are either interpolated (default)
 #' or kept constant based on an upstream value.
@@ -30,7 +29,7 @@
 #' @export
 #'
 extend_riverTable <- function(
-    rivers, river_id, aggregated_data, varName, sixBreaks,
+    rivers, river_id, aggregated_data, varName,
     NA_processing = "interpolation"
 ){
 
@@ -41,13 +40,12 @@ extend_riverTable <- function(
   # river table needs to be ordered by river km
   river_table <- river_table[order(river_table$km),]
 
-  MisaColor <- NULL
-  data("MisaColor", envir = environment())
+
 
   river_table[["value"]] <- NA
   # filter results for river id
-  data_table <- aggregated_data[aggregated_data$qsimVis_river == river_id &
-                                  !is.na(aggregated_data$qsimVis_river),]
+  data_table <- aggregated_data[aggregated_data$qsimVis_ID == river_id &
+                                  !is.na(aggregated_data$qsimVis_ID),]
 
   if(nrow(data_table) > 0L){
     # apply results to closest verknet node, if not already defined
@@ -66,7 +64,7 @@ extend_riverTable <- function(
     }
 
     # if the last and the first verknet node are not defined, use the closest
-    # data node, depennding on distance
+    # data node, depending on distance
     tolerable_distance <- 0.5 # km
     if(is.na(river_table$value[1])){
       first_value <- which(!is.na(river_table$value))[1]
@@ -92,12 +90,6 @@ extend_riverTable <- function(
       } else if(NA_processing == "steps"){
         insert_downstreamNA(data_vector = river_table$value)
       }
-
-    river_table$quality <-
-      cut(river_table$value, breaks = sixBreaks,
-          include.lowest = TRUE, ordered_result = TRUE)
-
-    river_table$color <- MisaColor[as.numeric(river_table$quality)]
   }
   river_table
 }

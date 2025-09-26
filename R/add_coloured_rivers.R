@@ -28,13 +28,13 @@ add_coloredRivers <- function(
   data("MisaColor", envir = environment())
 
   for(j in seq_along(ext_rivers)){
-    lines(x = ext_rivers[[j]]$x, y = ext_rivers[[j]]$y,
-          col = "steelblue")
-    for(i in seq_len(nrow(ext_rivers[[j]]) - 1)){
-      lines(x = ext_rivers[[j]]$x[i:(i+1)],
-            y = ext_rivers[[j]]$y[i:(i+1)],
-            col = ext_rivers[[j]]$color[i+1],
-            lwd = 4)
+    lines(x = ext_rivers[[j]]$data$x, y = ext_rivers[[j]]$data$y,
+          col = "steelblue", lwd = ext_rivers[[j]]$pp$river_lwd)
+    for(i in seq_len(nrow(ext_rivers[[j]]$data) - 1)){
+      lines(x = ext_rivers[[j]]$data$x[i:(i+1)],
+            y = ext_rivers[[j]]$data$y[i:(i+1)],
+            col = ext_rivers[[j]]$data$color[i+1],
+            lwd = 4 / ext_rivers[[j]]$pp$river_lwd)
     }
   }
 

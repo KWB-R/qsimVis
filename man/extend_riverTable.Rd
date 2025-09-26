@@ -9,7 +9,6 @@ extend_riverTable(
   river_id,
   aggregated_data,
   varName,
-  sixBreaks,
   NA_processing = "interpolation"
 )
 }
@@ -23,8 +22,6 @@ the rivers list}
 \code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or \code{\link[=critical_events]{critical_events()}}}
 
 \item{varName}{The column name of the agregated data in the output_table}
-
-\item{sixBreaks}{Breaks defining the lower limits of the categories.}
 
 \item{NA_processing}{Either "interpolation" or "steps".
 Defines if NA values between two locations are either interpolated (default)
