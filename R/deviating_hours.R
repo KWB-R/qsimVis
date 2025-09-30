@@ -1,10 +1,15 @@
 #' The sum of hours exceeding or falling below threshold values
 #'
 #' @param dataFrame Data frame with time column "posixDateTime" and parameter
-#' values per site
-#' @param thresholds Threshold values used for the assessment
+#' values per site.
+#' @param thresholds A vector of threshold values used for the assessment
 #' @param dev_type String defining the type of deviation. "elt" for equal or
 #' lower than, "egt" for equal or greater than.
+#' @param relative If TRUE, a relative proportion of hours compared to the total
+#' timeseries period in % is returned instead the sum of hours
+#'
+#' @details
+#' The termporal resolution of the time series needs to be constant.
 #'
 #' @return Data frame with rows per site and columns per threshold
 #'
@@ -13,7 +18,8 @@
 deviating_hours <- function(
     dataFrame,
     thresholds = c(0.5, 1, 1.5, 2, 5),
-    dev_type = "elt"
+    dev_type = "elt",
+    relative = FALSE
 ){
   dates <- dataFrame[["posixDateTime"]]
 
@@ -41,6 +47,9 @@ deviating_hours <- function(
     "above"
   }
   colnames(df_out) <- paste(cn, thresholds, sep = "_")
+  if(relative){
+    df_out <- df_out / (nrow(dataFrame) * resolution) * 100
+  }
   df_out <- qsimVis::add_site_info(
     df_in = df_out,
     v_qsim_ids = rownames(df_out)

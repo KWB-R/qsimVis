@@ -4,20 +4,31 @@
 \alias{deviating_hours}
 \title{The sum of hours exceeding or falling below threshold values}
 \usage{
-deviating_hours(dataFrame, thresholds = c(0.5, 1, 1.5, 2, 5), dev_type = "elt")
+deviating_hours(
+  dataFrame,
+  thresholds = c(0.5, 1, 1.5, 2, 5),
+  dev_type = "elt",
+  relative = FALSE
+)
 }
 \arguments{
 \item{dataFrame}{Data frame with time column "posixDateTime" and parameter
-values per site}
+values per site.}
 
-\item{thresholds}{Threshold values used for the assessment}
+\item{thresholds}{A vector of threshold values used for the assessment}
 
 \item{dev_type}{String defining the type of deviation. "elt" for equal or
 lower than, "egt" for equal or greater than.}
+
+\item{relative}{If TRUE, a relative proportion of hours compared to the total
+timeseries period in \% is returned instead the sum of hours}
 }
 \value{
 Data frame with rows per site and columns per threshold
 }
 \description{
 The sum of hours exceeding or falling below threshold values
+}
+\details{
+The termporal resolution of the time series needs to be constant.
 }
