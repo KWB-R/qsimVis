@@ -1,10 +1,8 @@
 # Documentation of aggregation and visualization of Qsim results
 
-
 project_path <-
   "Y:/iGB/Projects/IMPETUS/"
-  # "C:/Users/dwicke/Documents/work/IMPETUS"
-
+# "C:/Users/dwicke/Documents/work/IMPETUS"
 
 data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
 file_name <- "qsimVis_input_days_test_250905.csv"
@@ -33,10 +31,11 @@ reference_vector <- rep(0, nrow(df_pro))
 output <- list(
   "def_hours" =
     qsimVis::deviating_hours(
-    dataFrame = df_pro,
-    thresholds = c(5, 10, 15, 20, 40, 60)/100, # Anzahl flexibel
-    # thresholds = c(0,10, 20, 40, 60, 80)/100,
-    dev_type = "egt"),  # auch "elt" = equal or lower than möglich
+      dataFrame = df_pro,
+      thresholds = c(5, 10, 15, 20, 40, 60)/100, # Anzahl flexibel
+      # thresholds = c(0,10, 20, 40, 60, 80)/100,
+      dev_type = "egt", # auch "elt" = equal or lower than möglich
+      relative = TRUE), # If TRUE --> relative values in %
   "adv_deviation" =
     qsimVis::adverse_deviation_from_reference(
       dataFrame = df_pro,
@@ -54,7 +53,6 @@ output <- list(
 )
 
 head(output$def_hours)
-head(output$crit_events)
 
 # Combine river stretch and simulations data
 mapping_table <- read.table(
@@ -78,10 +76,10 @@ classBreaks <-
   # c(0, 720, 2160, 4320, 8760, 43800, 184056)
   # c(0, 2160, 4320, 8760, 43800, 87600, 184056)
 
-rivers <- qsimVis::value_to_classes(
-  river_list = rivers,
-  classBreaks = classBreaks
-)
+  rivers <- qsimVis::value_to_classes(
+    river_list = rivers,
+    classBreaks = classBreaks
+  )
 
 # plot data
 # qsimVis::plot_empty_map(rivers = rivers_ext, plot_toner = FALSE)
