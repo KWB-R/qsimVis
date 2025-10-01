@@ -4,14 +4,17 @@
 \alias{value_to_classes}
 \title{Add two columns class and color}
 \usage{
-value_to_classes(river_list, classBreaks)
+value_to_classes(river_list, classBreaks, colorVector = NULL)
 }
 \arguments{
 \item{river_list}{A list of river tables including a value column created by
 \code{\link[=prepare_rivers]{prepare_rivers()}}}
 
-\item{classBreaks}{Breaks defining the limits. The lowerst value is included
+\item{classBreaks}{Breaks defining the limits. The lowest value is included
 in the lowest class. In the remaining classes, the highest value is included.}
+
+\item{colorVector}{A vector of colors as HEX. By default, the MisaColors will
+be used.}
 }
 \value{
 The river_dataTable extended by two columns "quality" (class) and

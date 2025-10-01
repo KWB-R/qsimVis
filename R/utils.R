@@ -237,4 +237,44 @@ daysOfTimeShift <- function(all_dates){
   })
 }
 
+#' Returns the days of time shift for all years part of a date vector
+#'
+#' @param class_levels Levels of a class vector in correct order
+#' @param colorVector A vector of colors as HEX. By default, the MisaColor will
+#' be used
+#'
+#' @return
+#' A list of dates of timeshifts per year
+#'
+#' @importFrom grDevices col2rgb
+#'
+classes_to_color <- function(class_levels, colorVector = NULL){
+  nClasses <- length(class_levels)
+  if(is.null(colorVector)){
+    MisaColor <- NULL
+    data("MisaColor", envir = environment())
+    colorVector <- MisaColor
+  }
+
+  while(nClasses > length(colorVector)){
+    ct <- col2rgb(colorVector)
+    ct2 <- matrix((ct[,-ncol(ct)] + ct[,-1]) / 2, ncol = ncol(ct) -1)
+    ct <- cbind(ct[,1], matrix(sapply(2:ncol(ct), function(i){
+      cbind(ct2[,i-1], ct[,i])
+    }), nrow = 3))
+    colorVector <- apply(ct, 2, function(x){
+      rgb(red = x[1], green = x[2], blue = x[3], maxColorValue = 255)
+    })
+  }
+
+  colorVector <- colorVector[round(
+    seq(
+      from = 1,
+      to = length(colorVector),
+      length.out = nClasses
+    )
+  )]
+  names(colorVector) <- class_levels
+  factor(colorVector, levels = colorVector)
+}
 
