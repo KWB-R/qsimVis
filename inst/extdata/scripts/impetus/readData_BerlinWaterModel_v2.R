@@ -49,10 +49,44 @@ output <- list(
     separating_hours = 0,
     threshold = 0.6,
     recovery_value = NULL,
-    return_event_positions = FALSE)
+    return_event_positions = FALSE),
+  "stats" = qsimVis::stats(
+    dataFrame = df_pro),
+  "flow_mean" = qsimVis::flow_weighted_mean(
+    dataFrame = df_pro,
+    df_flow = df_in$flow
+  )
 )
 
+head(output$adv_deviation)
 head(output$def_hours)
+head(output$stats)
+head(output$flow_mean) # der Flow ist überall immer 19.37.
+# es gibt keinen CVK
+
+output_table <-
+  # "adv_deviation"
+  "def_hours"
+
+if(output_table == "adv_deviation"){
+  output_column <- "adverse_dev"
+  classBreaks <- c(0, 0.05, 0.1, 0.15, 0.25, 0.5, 1)
+  colorVector <- NULL # -> MisaColor
+  LegendTitle <- "Durchschnittliger Abwassergehalt"
+}
+if(output_table == "def_hours"){
+  output_column <- "above_0.2"
+  classBreaks <- c(0, 5, 10, 15, 25, 50, 100)
+  colorVector <- NULL # -> MisaColor
+  LegendTitle <- "Anteil mit mehr als 20% Abwasser in %"
+}
+
+if(output_table == "def_hours"){
+  output_column <- "above_0.2"
+  classBreaks <- c(seq(0,50, 5), seq(60,100,10))
+  colorVector <- c("blue", "green", "yellow", "orange", "darkred")
+  LegendTitle <- "Anteil mit mehr als 20% Abwasser in %"
+}
 
 # Combine river stretch and simulations data
 mapping_table <- read.table(
@@ -60,26 +94,19 @@ mapping_table <- read.table(
                      "extdata/scripts/impetus/BelinWaterModel_id_table.csv"),
   header = TRUE,
   sep = ";")
-
 rivers <- qsimVis::prepare_rivers(
   mapping_table = mapping_table,
-  aggregated_data = output$adv_deviation,
-  value_column = "adverse_dev",
-  # aggregated_data = output$def_hours,
-  # value_column = "above_0.6",
+  aggregated_data = output[[output_table]],
+  value_column = output_column,
   path_manual = system.file(package = "qsimVis", "extdata/manually_added_rivers"),
   gap_filling = "steps"
 )
-
-classBreaks <-
-  # c(0, 0.05, 0.1, 0.15, 0.25, 0.5, 1)
-  # c(0, 720, 2160, 4320, 8760, 43800, 184056)
-  # c(0, 2160, 4320, 8760, 43800, 87600, 184056)
-
-  rivers <- qsimVis::value_to_classes(
-    river_list = rivers,
-    classBreaks = classBreaks
-  )
+# add classes and colors
+rivers <- qsimVis::value_to_classes(
+  river_list = rivers,
+  classBreaks = classBreaks,
+  colorVector = colorVector
+)
 
 # plot data
 # qsimVis::plot_empty_map(rivers = rivers_ext, plot_toner = FALSE)
@@ -94,13 +121,13 @@ qsimVis::Berlin_add_waterbodies()
 
 # Add colored Rivers
 qsimVis::add_coloredRivers(
+  ext_rivers = rivers
+)
+
+qsimVis::add_river_legend(
   ext_rivers = rivers,
-  aggregated_data = aggregated_data,
-  sixBreaks = classBreaks,
-  dataType = "time",
-  # LegendTitle = "Durchschnittlicher \nRegenwasseranteil"
-  # LegendTitle = "Überschreitungsdauer [h] \n60% Regenanteil"
-  LegendTitle = "Durchschnittlicher \nAbwassergehalt"
+  LegendTitle = LegendTitle,
+  LegendLocation = "right"
 )
 
 # Write output table
