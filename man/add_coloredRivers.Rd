@@ -2,34 +2,14 @@
 % Please edit documentation in R/add_coloured_rivers.R
 \name{add_coloredRivers}
 \alias{add_coloredRivers}
-\title{Adds colour scaled riverdata to a map}
+\title{Adds color scaled river data to a map}
 \usage{
-add_coloredRivers(
-  ext_rivers,
-  aggregated_data,
-  sixBreaks,
-  dataType = "time",
-  LegendTitle = dataType,
-  LegendLocation = "right"
-)
+add_coloredRivers(ext_rivers)
 }
 \arguments{
-\item{ext_rivers}{A list of rivers loaded with \code{\link[=load_rivers]{load_rivers()}} and extended
-with \code{\link[=extend_riverTable]{extend_riverTable()}}}
-
-\item{aggregated_data}{A dataframe created by one of \code{\link[=deviating_hours]{deviating_hours()}},
-\code{\link[=adverse_deviation_from_reference]{adverse_deviation_from_reference()}} or \code{\link[=critical_events]{critical_events()}}}
-
-\item{sixBreaks}{Breaks defining the lower limits of the categories.}
-
-\item{dataType}{Used only for the Legend. If "time" is used, it is assumed
-that the first water quality category is between 0 and a value above 0, while
-for the counting of "events" the first category is 0 only.}
-
-\item{LegendTitle}{String with title of the legend}
-
-\item{LegendLocation}{Either "top" or "right" (outside the plot margin)}
+\item{ext_rivers}{A list of rivers loaded with \code{\link[=prepare_rivers]{prepare_rivers()}} and extended
+with \code{\link[=value_to_classes]{value_to_classes()}}}
 }
 \description{
-Adds colour scaled riverdata to a map
+Adds color scaled river data to a map
 }

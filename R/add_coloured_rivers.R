@@ -1,63 +1,23 @@
-#' Adds colour scaled riverdata to a map
+#' Adds color scaled river data to a map
 #'
-#' @param ext_rivers A list of rivers loaded with [load_rivers()] and extended
-#' with [extend_riverTable()]
-#' @param aggregated_data A dataframe created by one of [deviating_hours()],
-#' [adverse_deviation_from_reference()] or [critical_events()]
-#' @param sixBreaks Breaks defining the lower limits of the categories.
-#' @param dataType Used only for the Legend. If "time" is used, it is assumed
-#' that the first water quality category is between 0 and a value above 0, while
-#' for the counting of "events" the first category is 0 only.
-#' @param LegendTitle String with title of the legend
-#' @param LegendLocation Either "top" or "right" (outside the plot margin)
+#' @param ext_rivers A list of rivers loaded with [prepare_rivers()] and extended
+#' with [value_to_classes()]
 #'
-#' @importFrom graphics legend lines
+#' @importFrom graphics lines
 #' @export
 #'
 add_coloredRivers <- function(
-    ext_rivers,
-    aggregated_data,
-    sixBreaks,
-    dataType = "time",
-    LegendTitle = dataType,
-    LegendLocation ="right"
+    ext_rivers
 ){
-
-
-  MisaColor <- NULL
-  data("MisaColor", envir = environment())
-
   for(j in seq_along(ext_rivers)){
     lines(x = ext_rivers[[j]]$data$x, y = ext_rivers[[j]]$data$y,
           col = "steelblue", lwd = ext_rivers[[j]]$pp$river_lwd)
     for(i in seq_len(nrow(ext_rivers[[j]]$data) - 1)){
       lines(x = ext_rivers[[j]]$data$x[i:(i+1)],
             y = ext_rivers[[j]]$data$y[i:(i+1)],
-            col = ext_rivers[[j]]$data$color[i+1],
+            col = as.character(ext_rivers[[j]]$data$color[i+1]),
             lwd = 4 / ext_rivers[[j]]$pp$river_lwd)
     }
   }
-
-  ll <- length(sixBreaks)
-  l_content <-
-    if(dataType == "time"){
-      c(paste0("<= ", sixBreaks[2]), paste0("> ", sixBreaks[2:(ll-1)]))
-    } else {
-      c(paste0("<= ", sixBreaks[2:(ll-1)]), paste0(">", sixBreaks[(ll-1)]))
-    }
-  if(LegendLocation == "top"){
-    lx <- mean(par("usr")[1:2])
-    ly <- par("usr")[4]
-    xadj <- 0.5
-    hor <- TRUE
-  } else {
-    lx <- par("usr")[2]
-    ly <- par("usr")[3]
-    xadj <- 0
-    hor <- FALSE
-  }
-  legend(x = lx, y = ly, legend = l_content, col = MisaColor[seq_len(ll)], lwd = 6,
-         bg= "white", bty = "n", title = LegendTitle,
-         xpd = T, xjust = xadj, yjust = 0, horiz = hor)
 }
 
