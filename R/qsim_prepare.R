@@ -64,6 +64,12 @@ QSIM_prepare <-function(
     warning("No Flow column called '", flow_column_name ,"' found. Sections defined as empty character.")
   }
 
+  q <- if( is.null(flow_column_name)){
+    rep(NA, nrow(df_in))
+  } else {
+    df_in[[flow_column_name]]
+  }
+
   df_in <- data.frame(
     "ID" = df_in[[id_column_name]],
     "section" = ifelse(
@@ -73,10 +79,7 @@ QSIM_prepare <-function(
     "km" = df_in[[km_column_name]],
     "date" = df_in[[date_column_name]],
     "para" = df_in[[parameter_name]],
-    "Q" = ifelse(
-      is.null(flow_column_name),
-      yes = rep(NA, nrow(df_in)),
-      no = df_in[[flow_column_name]])
+    "Q" = q
   )
 
   df_in$site <- paste(
