@@ -26,6 +26,8 @@ df_in <- qsimVis::QSIM_prepare(
 
 # Aggregate data
 df_pro <- df_in$para
+unit_factor <- 1/2
+df_pro[,-1] <- df_pro[,-1] * unit_factor
 reference_vector <- rep(0, nrow(df_pro))
 
 output <- list(
@@ -65,8 +67,8 @@ head(output$flow_mean) # der Flow ist überall immer 19.37.
 # es gibt keinen CVK
 
 output_table <-
-  # "adv_deviation"
-  "def_hours"
+  "adv_deviation"
+  # "def_hours"
 
 if(output_table == "adv_deviation"){
   output_column <- "adverse_dev"
