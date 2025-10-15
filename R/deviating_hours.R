@@ -4,7 +4,8 @@
 #' values per site.
 #' @param thresholds A vector of threshold values used for the assessment
 #' @param dev_type String defining the type of deviation. "elt" for equal or
-#' lower than, "egt" for equal or greater than.
+#' lower than. "lt" for lower than, "egt" for equal or greater than, "gt" for
+#' greater than
 #' @param relative If TRUE, a relative proportion of hours compared to the total
 #' timeseries period in % is returned instead the sum of hours
 #'
@@ -34,6 +35,10 @@ deviating_hours <- function(
     sapply(thresholds, function(threshold) {
       if(dev_type == "elt"){
         sum(x <= threshold, na.rm = FALSE) * resolution
+      } else if(dev_type == "lt"){
+        sum(x < threshold, na.rm = FALSE) * resolution
+      } else if(dev_type == "gt"){
+        sum(x > threshold, na.rm = FALSE) * resolution
       } else if(dev_type == "egt"){
         sum(x >= threshold, na.rm = FALSE) * resolution
       } else {
@@ -42,9 +47,13 @@ deviating_hours <- function(
     })
   })))
   cn <- if(dev_type == "elt"){
+    "equal_below"
+  } else if(dev_type == "lt"){
     "below"
-  } else if(dev_type == "egt"){
+  } else if(dev_type == "gt"){
     "above"
+  } else if(dev_type == "egt"){
+    "equal_above"
   }
   colnames(df_out) <- paste(cn, thresholds, sep = "_")
   if(relative){
