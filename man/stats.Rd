@@ -13,7 +13,7 @@ in the time series.}
 }
 \value{
 Data frame with rows per site and columns for minimum, median,
-mean, standard diviation and maximum
+maximum, the 25th, 75th and 90th Percentile, mean and standard deviation
 }
 \description{
 General statistics per site

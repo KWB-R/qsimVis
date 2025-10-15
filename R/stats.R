@@ -5,7 +5,7 @@
 #' in the time series.
 #'
 #' @return Data frame with rows per site and columns for minimum, median,
-#' mean, standard diviation and maximum
+#' maximum, the 25th, 75th and 90th Percentile, mean and standard deviation
 #'
 #' @importFrom stats quantile sd
 #' @export
@@ -16,10 +16,10 @@ stats <- function(
   d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame))]
   df_out <- t(sapply(d, function(x){
     v_out <- c(
-      quantile(x = x),
+      quantile(x = x, probs = c(0, 0.25, 0.5, 0.75, 0.9, 1)),
       mean(x),
       sd(x))
-    names(v_out) <- c("min", "q25", "median", "q75", "max", "mean", "sd")
+    names(v_out) <- c("min", "q25", "median", "q75", "q90", "max", "mean", "sd")
     v_out
   }))
   df_out <- qsimVis::add_site_info(
