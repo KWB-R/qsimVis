@@ -18,7 +18,8 @@ values per site.}
 \item{thresholds}{A vector of threshold values used for the assessment}
 
 \item{dev_type}{String defining the type of deviation. "elt" for equal or
-lower than, "egt" for equal or greater than.}
+lower than. "lt" for lower than, "egt" for equal or greater than, "gt" for
+greater than}
 
 \item{relative}{If TRUE, a relative proportion of hours compared to the total
 timeseries period in \% is returned instead the sum of hours}
