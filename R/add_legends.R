@@ -4,12 +4,13 @@
 #' with [value_to_classes()]
 #' @param LegendTitle String with title of the legend
 #' @param LegendLocation Either "top" or "right" (outside the plot margin)
+#' @param ... Additional legend layout arguments
 #'
 #' @importFrom graphics legend
 #' @export
 #'
 add_river_legend <- function(
-    ext_rivers, LegendTitle = "", LegendLocation = "right"
+    ext_rivers, LegendTitle = "", LegendLocation = "right", ...
     ){
 
   if(LegendLocation == "top"){
@@ -41,7 +42,7 @@ add_river_legend <- function(
 
     nc <- length(cs)
     if(grepl(pattern = "^\\(", x = cs[1])){
-      cs[1] <- paste0("< ", strsplit(x = cs[1], split = ",")[[1]][-1])
+      cs[1] <- paste0("> ", strsplit(x = cs[1], split = ",")[[1]][-1])
     }
 
     if(grepl(pattern = "\\)$", x = cs[nc])){
@@ -51,21 +52,12 @@ add_river_legend <- function(
     cs <- gsub(pattern = "\\(", replacement = "> ", x = cs)
     cs <- gsub(pattern = "\\,", replacement = " - ", x = cs)
     cs <- gsub(pattern = "\\]", replacement = "", x = cs)
+    cs <- gsub(pattern = "^< -Inf - ", replacement = "", x = cs)
+    cs <- gsub(pattern = " - Inf$", replacement = "", x = cs)
     l_content <- cs
     legend(x = lx, y = ly, legend = cs, col = cc, lwd = 6,
            bg= "white", bty = "n", title = LegendTitle,
-           xpd = T, xjust = xadj, yjust = 0, horiz = hor)
+           xpd = T, xjust = xadj, yjust = 0, horiz = hor, ...)
 
   }
-  ext_rivers$BVK$data$value_class
-
-  # ll <- length(classBreaks)
-  # l_content <-
-  #   if(dataType == "time"){
-  #     c(paste0("<= ", classBreaks[2]), paste0("> ", classBreaks[2:(ll-1)]))
-  #   } else {
-  #     c(paste0("<= ", classBreaks[2:(ll-1)]), paste0(">", classBreaks[(ll-1)]))
-  #   }
-
-
 }

@@ -4,7 +4,7 @@
 \alias{add_river_legend}
 \title{Add a legend for the river color to the plot}
 \usage{
-add_river_legend(ext_rivers, LegendTitle = "", LegendLocation = "right")
+add_river_legend(ext_rivers, LegendTitle = "", LegendLocation = "right", ...)
 }
 \arguments{
 \item{ext_rivers}{A list of rivers loaded with \code{\link[=prepare_rivers]{prepare_rivers()}} and extended
@@ -13,6 +13,8 @@ with \code{\link[=value_to_classes]{value_to_classes()}}}
 \item{LegendTitle}{String with title of the legend}
 
 \item{LegendLocation}{Either "top" or "right" (outside the plot margin)}
+
+\item{...}{Additional legend layout arguments}
 }
 \description{
 Add a legend for the river color to the plot
