@@ -132,10 +132,23 @@ qsimVis::add_river_legend(
   LegendLocation = "right"
 )
 
+# Save as png
+qsimVis::saveActiveDevice(
+  filename = "WaterModelPlot",
+  path = file.path(project_path, data_path),
+  type = "",
+  resolution = "medium"
+)
+
+# save as svg (vector graphic)
+qsimVis::saveActiveDevice(
+  filename = "WaterModelPlot",
+  path = file.path(project_path, data_path),
+  type = "vector"
+)
+
 # Write output table
 # writexl::write_xlsx(x = output, path = file.path(path, "Viewer_Skript", "output_table.xlsx"))
-
-
 
 
 
