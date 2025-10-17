@@ -2,7 +2,12 @@
 
 project_path <-"Y:/wGB/Projects/2023_MISA5"
 data_path <- "Data-Work packages/AP2_Szenarienrechnung/berechnungen"
-scenario_name <- "S8"
+scenario_name <- "S0"
+# Definition Sanierte Einzugsgebiet:
+#catchments <- c("Bln IX", "Bln VII", "Bln IV", "Bln V", "Bln VII", "Bln I", "Bln II", "Nkn I", "Nkn II")
+catchments <- NULL
+
+# aber hier automatisch --------------------------------------------------------
 
 # load scenario data
 load(file = file.path(
@@ -24,7 +29,7 @@ classBreaks <- c(0, 25, 50, 100, 200, 300, Inf)
 colorVector <- NULL # -> MisaColor
 LegendTitle <- "Unterschreitungsdauer in h (1,5 mg/L)"
 
-#
+
 # Combine river stretch and simulations data
 mapping_table <- read.table(
   file = system.file(package = "qsimVis",
@@ -54,31 +59,68 @@ qsimVis::plot_empty_map(
               c(52.45, 52.57))
 )
 
-
-# catchments <- c("Bln IX", "Bln VII", "Bln IV", "Bln V", "Bln VII", "Bln I", "Bln II", "Nkn I", "Nkn II")
-catchments <- NULL
-# qsimVis::Berlin_add_boarder()
+# ganz Berlin
 qsimVis::Berlin_add_waterbodies(bg_color = "lightblue")
 qsimVis::Berlin_add_catchments(
   plot_names = TRUE,
   highlight_catchments = catchments,
   highlight_style = "beige"
 )
-
-
 # Add colored Rivers
 qsimVis::add_coloredRivers(
   ext_rivers = rivers
 )
-
 qsimVis::add_river_legend(
   ext_rivers = rivers,
   LegendTitle = LegendTitle,
   LegendLocation = "top", cex = 0.8
 )
+qsimVis::saveActiveDevice(
+  filename = paste0(scenario_name, "_def_hours"),
+  path = file.path(project_path,data_path,scenario_name,"5_assessment_output"),
+  type = "",
+  resolution = "high"
+)
+qsimVis::saveActiveDevice(
+  filename = paste0(scenario_name, "_def_hours"),
+  path = file.path(project_path,data_path,scenario_name,"5_assessment_output"),
+  type = "vector"
+)
 
-# Write output table
-# writexl::write_xlsx(x = output, path = file.path(path, "Viewer_Skript", "output_table.xlsx"))
+# ganz Berlin ------------------------------------------------------------------
+qsimVis::plot_empty_map(
+  bbox = list(c(13, 13.8),
+              c(52.35, 52.68))
+)
+# catchments <- c("Bln IX", "Bln VII", "Bln IV", "Bln V", "Bln VII", "Bln I", "Bln II", "Nkn I", "Nkn II")
+catchments <- NULL
+qsimVis::Berlin_add_boarder()
+qsimVis::Berlin_add_waterbodies(bg_color = "lightblue")
+qsimVis::Berlin_add_catchments(
+  plot_names = FALSE,
+  highlight_catchments = catchments,
+  highlight_style = "beige"
+)
+# Add colored Rivers
+qsimVis::add_coloredRivers(
+  ext_rivers = rivers
+)
+qsimVis::add_river_legend(
+  ext_rivers = rivers,
+  LegendTitle = LegendTitle,
+  LegendLocation = "top", cex = 0.8
+)
+qsimVis::saveActiveDevice(
+  filename = paste0(scenario_name, "_def_hours_berlin"),
+  path = file.path(project_path,data_path,scenario_name,"5_assessment_output"),
+  type = "",
+  resolution = "high"
+)
+qsimVis::saveActiveDevice(
+  filename = paste0(scenario_name, "_def_hours_berlin"),
+  path = file.path(project_path,data_path,scenario_name,"5_assessment_output"),
+  type = "vector"
+)
 
 
 
