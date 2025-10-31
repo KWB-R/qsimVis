@@ -64,16 +64,16 @@ output <- list(
   )
 )
 
+output_table <-
+  #"adv_deviation"
+  "stats"
+  #"def_hours"
+
 head(output$adv_deviation)
 head(output$def_hours)
 head(output$stats)
 head(output$flow_mean)
 # es gibt keinen CVK
-
-output_table <-
-  #"adv_deviation"
-  "stats"
-  # "def_hours"
 
 # Zeitdauer Abwasseranteil > x%
 if(output_table == "def_hours"){
@@ -105,7 +105,7 @@ if(output_table == "def_hours"){
   output_column <- "above_0.12"
   classBreaks <- c(0, 1, 10, 20, 40, 60, 80, 100)
   colorVector <- c("deepskyblue4", "gold", "orange", "darkorange3", "red", "red3", "darkred") # "dodgerblue4"
-  LegendTitle <- "Zeitanteil mit Konzentration Fluoranthen >0.12µg/L = ZHL-UQN (2017-2022) [%]"
+  LegendTitle <- "Zeitanteil mit Konzentration Fluoranthen >0.12µg/L = ZHK-UQN (2017-2022) [%]"
 }
 
 # Valsartansäure
@@ -124,12 +124,17 @@ if(output_table == "stats"){
   LegendTitle <- "Konzentration Fluoranthen 2017-2022, Mittelwert [µg/L]"
 }
 
+##########################################################################################################
+# Create map #############################################################################################
+##########################################################################################################
+
 # Combine river stretch and simulations data
 mapping_table <- read.table(
   file = system.file(package = "qsimVis",
                      "extdata/scripts/impetus/BelinWaterModel_id_table.csv"),
   header = TRUE,
   sep = ";")
+
 rivers <- qsimVis::prepare_rivers(
   mapping_table = mapping_table,
   aggregated_data = output[[output_table]],
@@ -137,6 +142,7 @@ rivers <- qsimVis::prepare_rivers(
   path_manual = system.file(package = "qsimVis", "extdata/manually_added_rivers"),
   gap_filling = "steps"
 )
+
 # add classes and colors
 rivers <- qsimVis::value_to_classes(
   river_list = rivers,
@@ -168,10 +174,10 @@ qsimVis::add_river_legend(
 
 # Save as png
 qsimVis::saveActiveDevice(
-  filename = "WaterModelPlot_Valsartansäure_2002-2022_ohne_Ozonung",
+  filename = "WaterModelPlot_Fuoranthen_2017-2022_Zeitanteil_above_ZHK-UQN",
   path = file.path(project_path, data_path),
-  type = "",
-  resolution = "medium"
+  type = "", # "vector" = svg-file
+  resolution = "low"
 )
 
 # save as svg (vector graphic)
