@@ -1,4 +1,5 @@
 # Documentation of aggregation and visualization of Qsim results
+library(qsimVis)
 
 project_path <-
 #  "Y:/iGB/Projects/IMPETUS/"
@@ -7,7 +8,7 @@ project_path <-
 
 #data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
 data_path <- "kwb.BerlinWaterModel"
-file_name <- "qsimVis_input_days_Val_S0.csv"
+file_name <- "qsimVis_input_hours_2017-2022_Fluoranthen.csv"
 
 # find out about column names --------------------------------------------------
 colNames <- read.csv(
@@ -18,7 +19,7 @@ print(colNames)
 # load and prepare qsim data
 df_in <- qsimVis::QSIM_prepare(
   qsim_output_file = file.path(project_path, data_path, file_name),
-  parameter_name = "Valsartan.g.m3", # "tracer.wwtp", "tracer.rain"
+  parameter_name = "Fluoranthen.mg.m3", # "tracer.wwtp", "tracer.rain"
   date_column_name = "Datum",
   id_column_name = "GewaesserId",
   km_column_name = "Km",
@@ -36,9 +37,10 @@ output <- list(
   "def_hours" =
     qsimVis::deviating_hours(
       dataFrame = df_pro,
-      thresholds = c(5, 10, 15, 20, 40, 60)/100, # Anzahl flexibel
+      # thresholds = c(5, 10, 15, 20, 40, 60)/100, # Anzahl flexibel
+      thresholds = c(0.0063, 0.12),
       # thresholds = c(0,10, 20, 40, 60, 80)/100,
-      dev_type = "egt", # "elt" = equal or lower than möglich, "egt", "gt", "lt"
+      dev_type = "gt", # "elt" = equal or lower than möglich, "egt", "gt", "lt"
       relative = TRUE), # If TRUE --> relative values in %
   "adv_deviation" =
     qsimVis::adverse_deviation_from_reference(
@@ -69,32 +71,41 @@ head(output$flow_mean)
 # es gibt keinen CVK
 
 output_table <-
-  "adv_deviation"
-  # "stats"
+  #"adv_deviation"
+  "stats"
   # "def_hours"
 
-
+# Zeitdauer Abwasseranteil > x%
 if(output_table == "def_hours"){
   output_column <- "above_0.2"
   classBreaks <- c(0, 5, 10, 15, 25, 50, 100)
 #  classBreaks <- c(seq(0,50, 5), seq(60,100,10))
   colorVector <- NULL # -> MisaColor
-  LegendTitle <- "Anteil mit mehr als 20% Abwasser in %"
+  LegendTitle <- "Zeitanteil mit mehr als 20% Abwasser in %"
 }
 
+# Zeitdauer Regenabflussanteil > x%
 if(output_table == "def_hours"){
   output_column <- "above_0.1"
-  classBreaks <- c(0, 5, 10, 220, 33, 50, 100)
+  classBreaks <- c(0, 5, 10, 20, 33, 50, 100)
   colorVector <- NULL # -> MisaColor
   LegendTitle <- "Zeitanteil mit mehr als 10% Regenabfluss 2002-2022 [%]"
 }
 
-# Durchfluss < 0
+# Zeitdauer Durchfluss < 0
 if(output_table == "def_hours"){
   output_column <- "below_0"
   classBreaks <- c(0, 1, 10, 15, 25, 50, 75, 100)
-  colorVector <- c("dodgerblue4", "yellow", "orange", "darkorange3", "red", "red3", "darkred")
+  colorVector <- c("deepskyblue4", "gold", "orange", "darkorange3", "red", "red3", "darkred") # "dodgerblue4"
   LegendTitle <- "Zeitanteil mit Durchfluss<0 in 2019 [%]"
+}
+
+# Zeitdauer Fluoranthen > x µg/L
+if(output_table == "def_hours"){
+  output_column <- "above_0.12"
+  classBreaks <- c(0, 1, 10, 20, 40, 60, 80, 100)
+  colorVector <- c("deepskyblue4", "gold", "orange", "darkorange3", "red", "red3", "darkred") # "dodgerblue4"
+  LegendTitle <- "Zeitanteil mit Konzentration Fluoranthen >0.12µg/L = ZHL-UQN (2017-2022) [%]"
 }
 
 # Valsartansäure
@@ -102,7 +113,15 @@ if(output_table == "stats"){
   output_column <- "mean"
   classBreaks <- c(0, 0.25, 0.5, 1, 2.5, 4, 6)
   colorVector <- NULL
-  LegendTitle <- "Konzentration Valsartansäure 2019 [µg/L]"
+  LegendTitle <- "Konzentration Valsartansäure [µg/L]"
+}
+
+# Fluoranthen
+if(output_table == "stats"){
+  output_column <- "mean"
+  classBreaks <- c(0, 0.0063, 0.04, 0.08, 0.12, 0.3, 0.5)
+  colorVector <- c("deepskyblue4", "gold", "orange", "darkorange3", "red", "darkred")
+  LegendTitle <- "Konzentration Fluoranthen 2017-2022, Mittelwert [µg/L]"
 }
 
 # Combine river stretch and simulations data
@@ -149,7 +168,7 @@ qsimVis::add_river_legend(
 
 # Save as png
 qsimVis::saveActiveDevice(
-  filename = "WaterModelPlot",
+  filename = "WaterModelPlot_Valsartansäure_2002-2022_ohne_Ozonung",
   path = file.path(project_path, data_path),
   type = "",
   resolution = "medium"
