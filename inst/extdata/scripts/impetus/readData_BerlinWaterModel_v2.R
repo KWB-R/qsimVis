@@ -8,7 +8,7 @@ project_path <-
 
 #data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
 data_path <- "kwb.BerlinWaterModel"
-file_name <- "qsimVis_input_hours_2017-2022_Fluoranthen.csv"
+file_name <- "qsimVis_input_days_2002-2022_Valsartansäure_Ozonung_alle_KW.csv"
 
 # find out about column names --------------------------------------------------
 colNames <- read.csv(
@@ -19,7 +19,7 @@ print(colNames)
 # load and prepare qsim data
 df_in <- qsimVis::QSIM_prepare(
   qsim_output_file = file.path(project_path, data_path, file_name),
-  parameter_name = "Fluoranthen.mg.m3", # "tracer.wwtp", "tracer.rain"
+  parameter_name = "Valsartan.mg.m3", # "tracer.wwtp", "tracer.rain"
   date_column_name = "Datum",
   id_column_name = "GewaesserId",
   km_column_name = "Km",
@@ -161,6 +161,7 @@ qsimVis::plot_empty_map(
 qsimVis::Berlin_add_boarder()
 qsimVis::Berlin_add_waterbodies()
 
+mtext(text = "Mittlere Konzentration Valsartansäure (2002-2022), Ozonung aller Klärwerke", side = 3, line = 1, cex = 1.2, font = 1)
 # Add colored Rivers
 qsimVis::add_coloredRivers(
   ext_rivers = rivers
@@ -174,7 +175,7 @@ qsimVis::add_river_legend(
 
 # Save as png
 qsimVis::saveActiveDevice(
-  filename = "WaterModelPlot_Fuoranthen_2017-2022_Zeitanteil_above_ZHK-UQN",
+  filename = "WaterModelPlot_Valsartansäure_2002-2022_Ozonung_alle_KW_2",
   path = file.path(project_path, data_path),
   type = "", # "vector" = svg-file
   resolution = "low"
