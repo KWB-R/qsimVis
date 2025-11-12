@@ -2,11 +2,12 @@
 library(qsimVis)
 
 project_path <-
-#  "Y:/iGB/Projects/IMPETUS/"
-# "C:/Users/dwicke/Documents/work/IMPETUS"
+  #  "Y:/iGB/Projects/IMPETUS/"
+  # "C:/Users/dwicke/Documents/work/IMPETUS"
   "C:/Users/dwicke/Documents/R/Github"
 
-#data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
+# data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
+# file_name <-  "qsimVis_input_days_test_250905.csv"
 data_path <- "kwb.BerlinWaterModel"
 file_name <- "qsimVis_input_days_2002-2022_Valsartansäure_Ozonung_alle_KW.csv"
 
@@ -19,7 +20,7 @@ print(colNames)
 # load and prepare qsim data
 df_in <- qsimVis::QSIM_prepare(
   qsim_output_file = file.path(project_path, data_path, file_name),
-  parameter_name = "Valsartan.mg.m3", # "tracer.wwtp", "tracer.rain"
+  parameter_name = "tracer.wwtp", # "Valsartan.mg.m3" "tracer.wwtp", "tracer.rain"
   date_column_name = "Datum",
   id_column_name = "GewaesserId",
   km_column_name = "Km",
@@ -66,8 +67,8 @@ output <- list(
 
 output_table <-
   #"adv_deviation"
-  "stats"
-  #"def_hours"
+  # "stats"
+  "def_hours"
 
 head(output$adv_deviation)
 head(output$def_hours)
@@ -77,9 +78,9 @@ head(output$flow_mean)
 
 # Zeitdauer Abwasseranteil > x%
 if(output_table == "def_hours"){
-  output_column <- "above_0.2"
+  output_column <- "above_0.12"
   classBreaks <- c(0, 5, 10, 15, 25, 50, 100)
-#  classBreaks <- c(seq(0,50, 5), seq(60,100,10))
+  #  classBreaks <- c(seq(0,50, 5), seq(60,100,10))
   colorVector <- NULL # -> MisaColor
   LegendTitle <- "Zeitanteil mit mehr als 20% Abwasser in %"
 }
@@ -167,10 +168,35 @@ qsimVis::add_coloredRivers(
   ext_rivers = rivers
 )
 
+qsimVis::add_logo(
+  logo_filename = "KWB_Logo.png",
+  position = "bottomright",
+  size = 1.2,
+  indent = 0.1,
+  bg_col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5)
+)
+
+qsimVis::add_logo(
+  logo_filename = "IMPETUS_Logo.png",
+  position = "bottomleft",
+  size = 2.5,
+  indent = 0.1,
+  bg_col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5)
+)
+
+
 qsimVis::add_river_legend(
   ext_rivers = rivers,
   LegendTitle = LegendTitle,
   LegendLocation = "right"
+)
+
+# Save as png
+qsimVis::saveActiveDevice(
+  filename = "test",
+  path = file.path(project_path, data_path),
+  type = "png", # "vector" = svg-file
+  resolution = "high"
 )
 
 # Save as png
