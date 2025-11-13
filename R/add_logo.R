@@ -2,7 +2,6 @@
 #'
 #' The logo needs to be in the package extdata/logo folder as png file
 #'
-#'
 #' @param logo_filename Filename including .png ending
 #' @param position One of "bottomright", "bottomleft", "bottom", "right", "left",
 #' "center", "topright", "topleft" or "top".
@@ -43,16 +42,16 @@ add_logo <- function(
     system.file(package="qsimVis", "extdata/logos"),
     logo_filename), native = TRUE
   )
-
   logo_size <- dim(logo)
-  logo_y_scale <- logo_size[1] / logo_size[2]
+  logo_y_ratio <- logo_size[1] / logo_size[2]
 
-  # into x and y values ranges in plot and margin
   x_plot_value_range <- diff(par("usr")[1:2])
-  x_total_value_range <-  x_plot_value_range / diff(par("plt")[1:2])
+  x_plot_inch_range <- par("pin")[1]
+  x_values_per_inch <- x_plot_value_range / x_plot_inch_range
 
   y_plot_value_range <- diff(par("usr")[3:4])
-  y_total_value_range <-  y_plot_value_range / diff(par("plt")[3:4])
+  y_plot_inch_range <- par("pin")[2]
+  y_values_per_inch <- y_plot_value_range / y_plot_inch_range
 
   if(position %in% c("bottomright", "topright", "right")){
     # definition of dimenstion based on x scale (1/10 of plot in x dimension)
@@ -70,9 +69,13 @@ add_logo <- function(
 
   # calculation into relative values to get y dimensions
   x_logo_value_range <- xright - xleft
-  x_logo_value_share <- x_logo_value_range / x_total_value_range
-  y_logo_value_share <- x_logo_value_share * logo_y_scale
-  y_logo_value_range <- y_logo_value_share  * y_total_value_range
+  x_logo_inch_range <-  x_logo_value_range /  x_values_per_inch
+  y_logo_inch_range <- x_logo_inch_range * logo_y_ratio
+  y_logo_value_range <- y_logo_inch_range * y_values_per_inch
+
+  # x_logo_value_share <- x_logo_value_range / x_total_value_range
+  # y_logo_value_share <- x_logo_value_share * logo_y_scale / device_y_scale
+  # y_logo_value_range <- y_logo_value_share  * y_total_value_range
 
   if(position %in% c("bottomleft", "bottom", "bottomright")){
     ybottom <-  par("usr")[3] + y_plot_value_range / 10 * indent
