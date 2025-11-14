@@ -9,7 +9,7 @@ project_path <-
 # data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
 # file_name <-  "qsimVis_input_days_test_250905.csv"
 data_path <- "kwb.BerlinWaterModel"
-file_name <- "qsimVis_input_days_2002-2022_Valsartansäure_Ozonung_alle_KW.csv"
+file_name <- "qsimVis_input_days_2002-2022_Valsartansäure_Ozonung_SCH.csv"
 
 # find out about column names --------------------------------------------------
 colNames <- read.csv(
@@ -20,7 +20,7 @@ print(colNames)
 # load and prepare qsim data
 df_in <- qsimVis::QSIM_prepare(
   qsim_output_file = file.path(project_path, data_path, file_name),
-  parameter_name = "tracer.wwtp", # "Valsartan.mg.m3" "tracer.wwtp", "tracer.rain"
+  parameter_name = "Valsartan.mg.m3", # "Valsartan.mg.m3" "tracer.wwtp", "tracer.rain"
   date_column_name = "Datum",
   id_column_name = "GewaesserId",
   km_column_name = "Km",
@@ -67,14 +67,19 @@ output <- list(
 
 output_table <-
   #"adv_deviation"
-  # "stats"
-  "def_hours"
+   "stats"
+  #"def_hours"
 
+if(FALSE) {
 head(output$adv_deviation)
 head(output$def_hours)
 head(output$stats)
 head(output$flow_mean)
-# es gibt keinen CVK
+}
+
+##########################################################################################################
+# Configuration of maps ##################################################################################
+##########################################################################################################
 
 # Zeitdauer Abwasseranteil > x%
 if(output_table == "def_hours"){
@@ -112,7 +117,7 @@ if(output_table == "def_hours"){
 # Valsartansäure
 if(output_table == "stats"){
   output_column <- "mean"
-  classBreaks <- c(0, 0.25, 0.5, 1, 2.5, 4, 6)
+  classBreaks <- c(0, 0.15, 0.3, 0.5, 1, 2, 3, 4, 6)
   colorVector <- NULL
   LegendTitle <- "Konzentration Valsartansäure [µg/L]"
 }
@@ -151,7 +156,8 @@ rivers <- qsimVis::value_to_classes(
   colorVector = colorVector
 )
 
-# plot data
+# plot data ############################################################################################
+
 # qsimVis::plot_empty_map(rivers = rivers_ext, plot_toner = FALSE)
 qsimVis::plot_empty_map(
   bbox = list(c(13, 13.8),
@@ -162,29 +168,32 @@ qsimVis::plot_empty_map(
 qsimVis::Berlin_add_boarder()
 qsimVis::Berlin_add_waterbodies()
 
-mtext(text = "Mittlere Konzentration Valsartansäure (2002-2022), Ozonung aller Klärwerke", side = 3, line = 1, cex = 1.2, font = 1)
+# Add Title
+mtext(text = "Mittlere Konzentration Valsartansäure (2002-2022), Ozonung Schönerlinde", side = 3, line = 1, cex = 1.2, font = 1)
+
 # Add colored Rivers
 qsimVis::add_coloredRivers(
   ext_rivers = rivers
 )
 
+# Add Logos
 qsimVis::add_logo(
   logo_filename = "KWB_Logo.png",
   position = "bottomright",
-  size = 1.2,
+  size = 0.8,
   indent = 0.1,
-  bg_col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5)
+  bg_col = rgb(red = 1, green = 1, blue = 1, alpha = 0)  # alpha = 0 behält transparenten Hintergrund
 )
 
 qsimVis::add_logo(
   logo_filename = "IMPETUS_Logo.png",
   position = "bottomleft",
-  size = 2.5,
+  size = 1.8,
   indent = 0.1,
-  bg_col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5)
+  bg_col = rgb(red = 1, green = 1, blue = 1, alpha = 0)  # alpha = 0 behält transparenten Hintergrund
 )
 
-
+# Add legend
 qsimVis::add_river_legend(
   ext_rivers = rivers,
   LegendTitle = LegendTitle,
@@ -193,18 +202,10 @@ qsimVis::add_river_legend(
 
 # Save as png
 qsimVis::saveActiveDevice(
-  filename = "test",
-  path = file.path(project_path, data_path),
-  type = "png", # "vector" = svg-file
-  resolution = "high"
-)
-
-# Save as png
-qsimVis::saveActiveDevice(
   filename = "WaterModelPlot_Valsartansäure_2002-2022_Ozonung_alle_KW_2",
   path = file.path(project_path, data_path),
-  type = "", # "vector" = svg-file
-  resolution = "low"
+  type = "png", # "vector" = svg-file
+  resolution = "medium"
 )
 
 # save as svg (vector graphic)
