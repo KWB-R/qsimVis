@@ -18,7 +18,7 @@ site_info_from_qsimID<- function(qsim_id){
   s2 <- strsplit(s1[2], "\\.")[[1]]
   list("river_name" = s1[1],
        "section_id" = s2[1],
-       "section_name" = s2[2],
+       "section_name" = paste(s2[2:length(s2)], collapse = " "),
        "km" = as.numeric(s1[3]))
 }
 
