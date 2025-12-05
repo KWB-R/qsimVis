@@ -278,3 +278,18 @@ classes_to_color <- function(class_levels, colorVector = NULL){
   factor(colorVector, levels = colorVector)
 }
 
+
+#' View the output table with rounded results
+#'
+#' @param ot The output table created with one of the aggregating functions
+#' @param digits The number of digits
+#'
+#' @importFrom utils View
+#' @export
+#'
+view_output <- function(ot, digits){
+  output_region <-
+    !(colnames(ot) %in% c("river_name", "section_id", "section_name", "km"))
+  ot[,output_region] <- round(ot[,output_region], digits = 3)
+  View(ot)
+}
