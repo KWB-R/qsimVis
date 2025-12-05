@@ -47,7 +47,10 @@ QSIM_prepare <-function(
     file = qsim_output_file,
     sep = ";",
     dec = ",",
-    header = TRUE
+    header = TRUE,
+    colClasses = list(
+      character = c(date_column_name, id_column_name)
+    )
   )
 
   if(any(!(
