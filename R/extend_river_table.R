@@ -47,7 +47,7 @@ extend_riverTable <- function(
   data_table <- aggregated_data[aggregated_data$qsimVis_ID == river_id &
                                   !is.na(aggregated_data$qsimVis_ID),]
 
-  if(nrow(data_table) > 0L){
+  if(nrow(data_table) > 0L & any(!is.na(data_table[[varName]]))){
     # apply results to closest verknet node, if not already defined
     km_verknet <- river_table$km
     for(i in seq_len(nrow(data_table))){

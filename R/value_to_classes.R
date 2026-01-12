@@ -12,17 +12,22 @@
 #'
 #' @export
 #'
-value_to_classes <- function(river_list, classBreaks, colorVector = NULL){
-
+value_to_classes <- function(
+    river_list, classBreaks, colorVector = NULL
+){
   output_list <- lapply(names(river_list), function(N){
     r <- river_list[[N]]
     x <- r$data
-    x$value_class <- cut(
-      x = x$value,
-      breaks = classBreaks,
-      include.lowest = TRUE,
-      ordered_result = TRUE
-    )
+    x$value_class <- if(any(!is.na(x$value))){
+      cut(
+        x = x$value,
+        breaks = classBreaks,
+        include.lowest = TRUE,
+        ordered_result = TRUE
+      )
+    } else {
+      NA
+    }
     list("data" = x,
          "pp" = r$pp
     )
