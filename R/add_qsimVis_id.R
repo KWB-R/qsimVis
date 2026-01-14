@@ -34,6 +34,12 @@ add_qsimVis_id <- function(
 ){
   separate_project_ids <- strsplit(x = translation_table$model_IDs, ",")
   project_ids <- unlist(separate_project_ids)
+  too_much_space <- grepl(pattern = "^ | $", x = project_ids)
+  if(any(too_much_space)){
+    warning("There are project ID's beginning or ending with a space,",
+            "possibily unintended: ",
+            "'",  paste0(project_ids[too_much_space], collapse = "', '"), "'")
+  }
 
   aggregated_data$qsimVis_source <- aggregated_data$qsimVis_ID <- NA
 
