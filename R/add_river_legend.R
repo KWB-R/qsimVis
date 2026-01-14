@@ -48,11 +48,12 @@ add_river_legend <- function(
     if(grepl(pattern = "\\)$", x = cs[nc])){
       cs[nc] <- paste0(strsplit(x = cs[nc], split = ",")[[1]][1])
     }
+    cs <- gsub(pattern = " ", replacement = "", x = cs)
     cs <- gsub(pattern = "\\[", replacement = "", x = cs)
     cs <- gsub(pattern = "\\(", replacement = "> ", x = cs)
     cs <- gsub(pattern = "\\,", replacement = " - ", x = cs)
     cs <- gsub(pattern = "\\]", replacement = "", x = cs)
-    cs <- gsub(pattern = "^< -Inf - ", replacement = "", x = cs)
+    cs <- gsub(pattern = "^-Inf - ", replacement = "<= ", x = cs)
     cs <- gsub(pattern = " - Inf$", replacement = "", x = cs)
     l_content <- cs
     legend(x = lx, y = ly, legend = cs, col = cc, lwd = 6,
