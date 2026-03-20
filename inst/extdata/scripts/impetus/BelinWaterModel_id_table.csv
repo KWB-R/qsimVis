@@ -1,0 +1,32 @@
+"qsimVis_ID";"verknet_BWaStrIdNr";"Bezeichnung";"model_IDs";"size_type"
+"BSK";"5401";"Berlin-Spandauer (Schifffahrts)kanal";"BSK";1
+"WHK";"5403";"Westhafenkanal";"WHK";1
+"CVK";"5404";"Charlottenburger Verbindungskanal (zur Spree)";"CVK";1
+"DaW";"5501";"Dahme-Wasserstraße";"DaW";1
+"WdS";"5524";"Wernsdorfer Seenkette";"WdS";1
+"HOW";"5801";"Havel-Oder-Wasserstraße";"HOW";1
+"TgS";"5809";"Tegeler See";"TgS";1
+"RüG";"6301";"Rüdersdorfer Gewässer";"RüG";1
+"SOW";"6501";"Spree-Oder-Wasserstraße";"SOW";1
+"LWK";"6504";"Landwehrkanal";"LWK";1
+"RmS";"6510";"Rummelsburger See";"RmS";1
+"MgS";"6513";"Müggelspree";"MgS";1
+"GKr";"6527";"Große Krampe";"GKr";1
+"GoK";"6528";"Gosener Kanal und Seddiner See";"GoK";1
+"GoG";"6532";"Gosener Graben";"GoG";1
+"TeK";"6601";"Teltowkanal";"TeK";1
+"GrK";"6602";"Griebnitzkanal";"GrK";1
+"BVK";"6604";"Britzer Verbindungskanal (zur Spree)";"BVK";1
+"UHW";"6701";"Untere Havel-Wasserstraße (Spandau - Plaue)";"UHW";1
+"GWS";"6707";"Großer Wannsee";"GWS";1
+"PHv";"6712";"Potsdamer Havel";"PHv";1
+"Neukoellner_Schifffahrtskanal";"NA";"Neuköllner Schifffahrts-Kanal";"NSK";1
+"Baeke";"NA";"Bäke";"Bae";2
+"SpK";"6507";"Spreekanal";"SpK,Spk";1
+"Stoe";"NA";"???";"Stoe";2
+"Marzahn_Hohenschoenhauser_Grenzgraben";"NA";"Marzahn Hohenschönhause Grenzgraben";"MHGG";2
+"Tegeler_Fliess";"NA";"Tegeler_Fließ";"Tegeler_Fliess";2
+"Erpe";"NA";"Erpe";"Erpe";2
+"Nordgraben";"NA";"Nordgraben";"Nordgraben";2
+"Panke";"NA";"Panke";"Panke";2
+"Wuhle";"NA";"Wuhle";"Wuhle";2
