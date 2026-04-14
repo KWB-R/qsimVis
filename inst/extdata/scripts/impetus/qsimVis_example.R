@@ -132,10 +132,13 @@ qsimVis::Berlin_add_poi(
   poiType = "wwtp",
   poiTitle = "Kläranlagen",
   fillColor = "#6B3E3A",
-  lineColor = "#FF796D",
-  plotNames = TRUE,
+  lineColor =  "#FF796D",
+  plotNames = FALSE,
   sw_connection = TRUE,
-  rivers = rivers)
+  rivers = rivers,
+  pCex = 2,
+  legendPosition = "topright",
+  dashed_connection = FALSE)
 
 qsimVis::Berlin_add_poi(
   poiType = "dwtp",
@@ -144,7 +147,9 @@ qsimVis::Berlin_add_poi(
   lineColor = "#9DD0FF",
   plotNames = TRUE,
   sw_connection = TRUE,
-  rivers = rivers)
+  rivers = rivers,
+  pCex = 2,
+  legendPosition = "topright")
 
 # on single POI (--> KWB)
 qsimVis::add_POI(
