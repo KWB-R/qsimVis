@@ -1,0 +1,10 @@
+type;name;x_longitude;y_latitude;link_longitude;link_latitude;link_river_id;link_river_km
+wwtp;KA Ruhleben;13.23225321;52.53158651;13.225601760489246;52.53385962214757;;
+wwtp;KA Ruhleben;13.23225321;52.53158651;13.305434746878896;52.42357612260182;;
+wwtp;KA Stahnsdorf;13.24586253;52.37576922;;;;
+wwtp;KA Münchehofe;13.65923931;52.48793154;;;;
+wwtp;KA Schönerlinde;13.41541749;52.66086029;;;;
+wwtp;KA Schönerlinde;13.41541749;52.66086029;;;;
+wwtp;KA Waßmannsdorf;13.46827876;52.38368496;;;TeK;36
+dwtp;WW Tegel;13.26554469;52.5761761;;;;
+dwtp;WW Friedrichshagen;13.64806107;52.45319514;;;;
