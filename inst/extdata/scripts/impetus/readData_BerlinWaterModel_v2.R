@@ -2,13 +2,13 @@
 library(qsimVis)
 
 project_path <-
-  #  "Y:/iGB/Projects/IMPETUS/"
+    "Y:/iGB/Projects/IMPETUS/"
   # "C:/Users/dwicke/Documents/work/IMPETUS"
-  "C:/Users/dwicke/Documents/R/Github"
+ #  "C:/Users/dwicke/Documents/R/Github"
 
-# data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
+ data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
 # file_name <-  "qsimVis_input_days_test_250905.csv"
-data_path <- "kwb.BerlinWaterModel"
+# data_path <- "kwb.BerlinWaterModel"
 file_name <- "qsimVis_input_days_2002-2022_Valsartansäure_Ozonung_SCH.csv"
 
 # find out about column names --------------------------------------------------
