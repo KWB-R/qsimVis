@@ -186,12 +186,15 @@ Berlin_add_poi <- function(
         }
       }
       if(!is.na(df_plot$link_longitude[i]) & !is.na(df_plot$link_latitude[i])){
-        lines(x = c(df_plot$x_longitude[i], df_plot$link_longitude[i]),
-              y = c(df_plot$y_latitude[i], df_plot$link_latitude[i]),
-              col = fillColor, lwd = 2)
-        lines(x = c(df_plot$x_longitude[i], df_plot$link_longitude[i]),
-              y = c(df_plot$y_latitude[i], df_plot$link_latitude[i]),
-              col = lineColor, lwd = 2, lty = "dotted")
+        if(!dashed_connection){
+          lines(x = c(df_plot$x_longitude[i], df_plot$link_longitude[i]),
+                y = c(df_plot$y_latitude[i], df_plot$link_latitude[i]),
+                col = fillColor, lwd = 2)
+        } else {
+          lines(x = c(df_plot$x_longitude[i], df_plot$link_longitude[i]),
+                y = c(df_plot$y_latitude[i], df_plot$link_latitude[i]),
+                col = lineColor, lwd = 2, lty = "dotted")
+        }
       }
     }
   }
