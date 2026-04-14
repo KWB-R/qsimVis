@@ -11,7 +11,8 @@ QSIM_prepare(
   id_column_name = "ID",
   km_column_name = "km",
   flow_column_name = "Q",
-  section_column_name = NULL
+  section_column_name = NULL,
+  dec = ","
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ obligatory column names.}
 \item{flow_column_name, section_column_name}{String defining the column names.
 If NULL, the columns will be filled by NA values (flow column) or empty
 chracaters (section column)}
+
+\item{dec}{The decimal separator. If not "," (default) then usually ".".}
 }
 \value{
 A list of 2 tables, where the number of rows correspond to the number if

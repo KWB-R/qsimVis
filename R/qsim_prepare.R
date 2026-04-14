@@ -14,6 +14,7 @@
 #' @param flow_column_name,section_column_name String defining the column names.
 #' If NULL, the columns will be filled by NA values (flow column) or empty
 #' chracaters (section column)
+#' @param dec The decimal separator. If not "," (default) then usually ".".
 #'
 #' @details
 #' The flow column needs to be in m³/s
@@ -40,13 +41,14 @@ QSIM_prepare <-function(
     id_column_name = "ID",
     km_column_name = "km",
     flow_column_name = "Q",
-    section_column_name = NULL
+    section_column_name = NULL,
+    dec = ","
 ){
 
   df_in <- data.table::fread(
     file = qsim_output_file,
     sep = ";",
-    dec = ",",
+    dec = dec,
     header = TRUE,
     colClasses = list(
       character = c(date_column_name, id_column_name)

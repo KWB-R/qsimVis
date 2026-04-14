@@ -4,7 +4,7 @@
 \alias{plot_empty_map}
 \title{Creates an map Plot, dimensions based on rivers and Qsim output data}
 \usage{
-plot_empty_map(bbox = NULL, rivers = NULL, plot_toner = FALSE)
+plot_empty_map(bbox = NULL, rivers = NULL, plot_map = FALSE)
 }
 \arguments{
 \item{bbox}{List as Bounding box with two vectors of length 2 for
@@ -15,7 +15,7 @@ define the bounding box. bbox overwrites rivers for bounding box definition.}
 latitude) and values to be plotted. Created by functions \code{\link[=load_rivers]{load_rivers()}} and
 \code{\link[=extend_riverTable]{extend_riverTable()}}}
 
-\item{plot_toner}{If TRUE a toner map is used as background}
+\item{plot_map}{If TRUE a toner map is used as background}
 }
 \description{
 Creates an map Plot, dimensions based on rivers and Qsim output data

@@ -73,10 +73,6 @@ add_logo <- function(
   y_logo_inch_range <- x_logo_inch_range * logo_y_ratio
   y_logo_value_range <- y_logo_inch_range * y_values_per_inch
 
-  # x_logo_value_share <- x_logo_value_range / x_total_value_range
-  # y_logo_value_share <- x_logo_value_share * logo_y_scale / device_y_scale
-  # y_logo_value_range <- y_logo_value_share  * y_total_value_range
-
   if(position %in% c("bottomleft", "bottom", "bottomright")){
     ybottom <-  par("usr")[3] + y_plot_value_range / 10 * indent
     ytop <- ybottom + y_logo_value_range

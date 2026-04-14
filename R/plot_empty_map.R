@@ -6,17 +6,17 @@
 #' @param rivers List of data frames containing a river stretch (longitude and
 #' latitude) and values to be plotted. Created by functions [load_rivers()] and
 #' [extend_riverTable()]
+#' @param plot_map If TRUE a toner map is used as background
 #'
-#' @param plot_toner If TRUE a toner map is used as background
 #' @importFrom grDevices png dev.off dev.new
-#'
 #' @importFrom graphics par
 #' @import ggmap
 #' @export
 #'
 plot_empty_map <- function(
-    bbox = NULL, rivers = NULL, plot_toner = FALSE
+    bbox = NULL, rivers = NULL, plot_map = FALSE
 ){
+  nTypes(reset = TRUE)
   if(is.null(bbox)){
     if(is.null(rivers)){
       stop("One of 'bbox' or 'rivers' must be passed to the function.")
@@ -45,7 +45,7 @@ plot_empty_map <- function(
        xlab = "", ylab = "",
        xlim = xlim, ylim = ylim)
 
-  if(plot_toner){
+  if(plot_map){
     relWidth <- diff(par("plt")[c(1,2)])
     relHeight <- diff(par("plt")[c(3,4)])
     add_left <- par("plt")[1] / relWidth * par("cxy")[1]
@@ -57,12 +57,9 @@ plot_empty_map <- function(
               top = ylim[2] + add_top , bottom = ylim[1] - add_bottom)
     dev.new(noRStudioGD = TRUE, height = 6, width = 6 * width_factor,
             units = "in")
-    t_map <- ggmap::get_stamenmap(bbox,maptype = "toner", zoom = 12)
+    t_map <- ggmap::get_stadiamap(bbox, maptype = "stamen_toner", zoom = 12)
     ggmap::ggmap(ggmap = t_map, extent = "device")
 
-    # rect(xleft = xlim[2], xright = xlim[2] + add_right,
-    #      ybottom = ylim[1] - add_bottom, ytop = ylim[2] + add_top,
-    #      col = "white", xpd = TRUE)
   }
 }
 
