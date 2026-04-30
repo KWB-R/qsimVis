@@ -131,24 +131,24 @@ qsimVis::add_coloredRivers(
 qsimVis::Berlin_add_poi(
   poiType = "wwtp",
   poiTitle = "Kläranlagen",
-  fillColor = "#6B3E3A",
-  lineColor =  "#FF796D",
+  fillColor = "sienna3",
+  lineColor =  "#6B3E3A", # "#FF796D"
   plotNames = FALSE,
   sw_connection = TRUE,
   rivers = rivers,
-  pCex = 2,
+  pCex = 1.8,
   legendPosition = "topright",
   dashed_connection = FALSE)
 
 qsimVis::Berlin_add_poi(
   poiType = "dwtp",
   poiTitle = "Wasserwerke",
-  fillColor = "#25496B",
-  lineColor = "#9DD0FF",
+  fillColor = "steelblue3",
+  lineColor = "#25496B", ##9DD0FF",
   plotNames = TRUE,
   sw_connection = TRUE,
   rivers = rivers,
-  pCex = 2,
+  pCex = 1.8,
   legendPosition = "topright")
 
 # on single POI (--> KWB)
