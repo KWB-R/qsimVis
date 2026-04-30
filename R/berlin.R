@@ -189,11 +189,11 @@ Berlin_add_poi <- function(
         if(!dashed_connection){
           lines(x = c(df_plot$x_longitude[i], df_plot$link_longitude[i]),
                 y = c(df_plot$y_latitude[i], df_plot$link_latitude[i]),
-                col = fillColor, lwd = 2)
+                col = fillColor, lwd = 1)
         } else {
           lines(x = c(df_plot$x_longitude[i], df_plot$link_longitude[i]),
                 y = c(df_plot$y_latitude[i], df_plot$link_latitude[i]),
-                col = lineColor, lwd = 2, lty = "dotted")
+                col = lineColor, lwd = 1, lty = "dotted")
         }
       }
     }
@@ -223,7 +223,7 @@ Berlin_add_poi <- function(
     } else if(legendPosition == "topleft"){
       xP <- par("usr")[1] + x_plot_value_range / 10 * 0.2
     }
-    ytop <-  par("usr")[4] - y_plot_value_range / 10 * 0.2
+    ytop <-  par("usr")[4] - y_plot_value_range / 10 * 0.4
 
     points(
       x = xP, y = ytop - (n -1) * y_width * 1.5,
