@@ -2,14 +2,14 @@
 library(qsimVis)
 
 project_path <-
-    "Y:/iGB/Projects/IMPETUS/"
-  # "C:/Users/dwicke/Documents/work/IMPETUS"
+  #  "Y:/iGB/Projects/IMPETUS/"
+   "C:/Users/dwicke/Documents/work/IMPETUS"
  #  "C:/Users/dwicke/Documents/R/Github"
 
- data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse"
+data_path <- "Work-packages/WP4_Demonstration_KWB/CS-Berlin/04_Modelling/OGewaesser/BerlinWaterModel/Ergebnisse/MapPlots"
 # file_name <-  "qsimVis_input_days_test_250905.csv"
 # data_path <- "kwb.BerlinWaterModel"
-file_name <- "qsimVis_input_days_2002-2022_Valsartansäure_Ozonung_SCH.csv"
+file_name <- "qsimVis_input_days_2002-2022_Valsartansäure-Äq_no-OWA_ohne_Ozonung_mit-Zuflusskonz-OSK_V4.csv"
 
 # find out about column names --------------------------------------------------
 colNames <- read.csv(
@@ -20,7 +20,7 @@ print(colNames)
 # load and prepare qsim data
 df_in <- qsimVis::QSIM_prepare(
   qsim_output_file = file.path(project_path, data_path, file_name),
-  parameter_name = "Valsartan.mg.m3", # "Valsartan.mg.m3" "tracer.wwtp", "tracer.rain"
+  parameter_name = "ValsartansaeureAeq.mg.m3", # "Fluoranthen.mg.m3", "ValsartansaeureAeq.mg.m3", "Valsartan.mg.m3" "tracer.wwtp", "tracer.rain"
   date_column_name = "Datum",
   id_column_name = "GewaesserId",
   km_column_name = "Km",
@@ -52,9 +52,11 @@ output <- list(
   "crit_events" = qsimVis::critical_events(
     dataFrame = df_pro,
     dev_type = "egt", # auch "elt" = equal or lower than möglich
-    deficiency_hours = 24,
-    separating_hours = 0,
-    threshold = 0.6,
+#    deficiency_hours = 24,
+#    separating_hours = 0,
+    deficiency_hours = 1,
+    separating_hours = 6,
+    threshold = 0.12,
     recovery_value = NULL,
     return_event_positions = FALSE),
   "stats" = qsimVis::stats(
@@ -69,11 +71,13 @@ output_table <-
   #"adv_deviation"
    "stats"
   #"def_hours"
+  #"crit_events"
 
 if(FALSE) {
 head(output$adv_deviation)
 head(output$def_hours)
 head(output$stats)
+head(output$crit_events)
 head(output$flow_mean)
 }
 
@@ -117,9 +121,10 @@ if(output_table == "def_hours"){
 # Valsartansäure
 if(output_table == "stats"){
   output_column <- "mean"
-  classBreaks <- c(0, 0.15, 0.3, 0.5, 1, 2, 3, 4, 6)
+#  classBreaks <- c(0, 0.15, 0.3, 0.5, 1, 2, 3, 4, 6)
+  classBreaks <- c(0, 0.25, 0.5, 1, 2, 3, 4, 6, 10, 20)
   colorVector <- NULL
-  LegendTitle <- "Konzentration Valsartansäure [µg/L]"
+  LegendTitle <- "Konzentration Valsartansäure-äq (2002-2022) \n [µg/L]"
 }
 
 # Fluoranthen
@@ -128,6 +133,14 @@ if(output_table == "stats"){
   classBreaks <- c(0, 0.0063, 0.04, 0.08, 0.12, 0.3, 0.5)
   colorVector <- c("deepskyblue4", "gold", "orange", "darkorange3", "red", "darkred")
   LegendTitle <- "Konzentration Fluoranthen 2017-2022, Mittelwert [µg/L]"
+}
+
+# Fluoranthen - Anzahl krit. events
+if(output_table == "crit_events"){
+  output_column <- "events"
+  classBreaks <- c(0, 0.5, 5, 20, 100, 500)
+  colorVector <- c("seagreen", "gold", "orange", "red", "darkred") # "darkgreen"
+  LegendTitle <- "Anzahl Ereignisse >0.12 µg/L \n(ZHK-UQN)"
 }
 
 ##########################################################################################################
@@ -165,16 +178,57 @@ qsimVis::plot_empty_map(
 )
 
 # Add Shape Background
-qsimVis::Berlin_add_boarder()
+qsimVis::Berlin_add_boarder(
+  bg_color = "gray90",
+  frame = NA)
 qsimVis::Berlin_add_waterbodies()
 
 # Add Title
-mtext(text = "Mittlere Konzentration Valsartansäure (2002-2022), Ozonung Schönerlinde", side = 3, line = 1, cex = 1.2, font = 1)
+#mtext(text = "Relative Überschreitungsdauer der ZHK-UQN für Fluoranthen (2017-2022)", side = 3, line = 0.6, cex = 1.2, font = 1)
+#mtext(text = "Anzahl Überschreitungen der ZHK-UQN für Fluoranthen (2017-2022)", side = 3, line = 0.6, cex = 1.2, font = 1)
+#mtext(text = "Mittlere Konzentrationen für Fluoranthen (2017-2022)", side = 3, line = 0.6, cex = 1.2, font = 1)
+mtext(text = "Mittlere Konzentration Valsartansäure-äq, ohne Ozonung\n(Zufluss [µg/L]: Spree & OSK=0.46, Dahme=0.36, Havel=0.24, OWA=0)", side = 3, line = 0.6, cex = 1.19, font = 1)
+#mtext(text = "Ozonung in allen 5 Berliner Klärwerken und Reduktion Zuflusskonzentrationen", side = 3, line = 0.6, cex = 1.19, font = 1)
 
 # Add colored Rivers
 qsimVis::add_coloredRivers(
   ext_rivers = rivers
 )
+
+qsimVis::Berlin_add_poi(
+  poiType = "wwtp",
+  poiTitle = "Kläranlagen",
+  fillColor = "sienna3",
+  lineColor =  "#6B3E3A", # "#FF796D"
+  plotNames = FALSE,
+  sw_connection = TRUE,
+  rivers = rivers,
+  pCex = 1.8,
+  legendPosition = "topright",
+  dashed_connection = FALSE)
+
+qsimVis::Berlin_add_poi(
+  poiType = "dwtp",
+  poiTitle = "Wasserwerke",
+  fillColor = "steelblue3", # "skyblue3" "steelblue2"
+  lineColor = "#25496B", # #9DD0FF",
+  plotNames = FALSE,
+  sw_connection = FALSE,
+  rivers = rivers,
+  pCex = 1.8,
+  legendPosition = "topright")
+
+# one single POI (--> KWB)
+#qsimVis::add_POI(
+#  lat = 52.488674,
+#  lon = 13.342737,
+#  lineColor = "black",
+#  fillColor = "black",
+#  pch = 20,
+#  cex = 1,
+#  textbg = "orange",
+#  title = "KWB"
+#)
 
 # Add Logos
 qsimVis::add_logo(
@@ -202,7 +256,7 @@ qsimVis::add_river_legend(
 
 # Save as png
 qsimVis::saveActiveDevice(
-  filename = "WaterModelPlot_Valsartansäure_2002-2022_Ozonung_alle_KW_2",
+  filename = "WaterModelPlot_Valsartansäure_2002-2022_ohne_Ozonung_mit-POI2",
   path = file.path(project_path, data_path),
   type = "png", # "vector" = svg-file
   resolution = "medium"
@@ -215,9 +269,17 @@ qsimVis::saveActiveDevice(
   type = "vector"
 )
 
-# Write output table
-# writexl::write_xlsx(x = output, path = file.path(path, "Viewer_Skript", "output_table.xlsx"))
 
+output_clean <- output$stats %>%
+  dplyr::select("section_id", "section_name", "mean", "sd", "median", "q90") %>%
+  dplyr::mutate(dplyr::across(where(is.numeric), \(x) round(x , 3))) %>%
+  dplyr::arrange(section_id) %>%
+  dplyr::group_by(section_id, section_name) %>%
+  dplyr::summarize(dplyr::across(where(is.numeric), \(x) mean(x)))
+
+# Write output table
+openxlsx::write.xlsx(x = output_clean, "results_sections_2002-2022_Valsartansäure-Äq_no-OWA_Ozonung-alle-KW_mit-Zuflusskonz-OSK.xlsx")
+# writexl::write_xlsx(x = output, path = file.path(path, "Viewer_Skript", "output_table.xlsx"))
 
 
 
