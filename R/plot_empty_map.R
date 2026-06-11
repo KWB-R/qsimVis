@@ -37,7 +37,7 @@ plot_empty_map <- function(
   xpdDim <- 6
   dev.new(noRStudioGD = TRUE, height = 6, width = 6 * width_factor,
           units = "in")
-  par(mar = c(xpdDim / 2, 0.2, xpdDim / 2 , xpdDim * width_factor - 0.2))
+  par(mar = c(xpdDim / 2, 0.2, xpdDim / 2 , xpdDim * width_factor + 1))
 
   plot(x = 0, y = 0,
        xaxt = "n", yaxt = "n", type = "n",
