@@ -9,3 +9,5 @@
 ^README\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.positai$
+^\.claude$
