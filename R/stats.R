@@ -11,15 +11,17 @@
 #' @export
 #'
 stats <- function(
-    dataFrame
+    dataFrame,
+    quantiles = c(0.25, 0.5, 0.75)
 ){
-  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame))]
+  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame)),
+                 drop = FALSE]
   df_out <- t(sapply(d, function(x){
     v_out <- c(
-      quantile(x = x, probs = c(0, 0.25, 0.5, 0.75, 0.9, 1)),
+      quantile(x = x, probs = c(0, quantiles, 1)),
       mean(x),
       sd(x))
-    names(v_out) <- c("min", "q25", "median", "q75", "q90", "max", "mean", "sd")
+    names(v_out) <- c("min", paste0("q", quantiles*100), "max", "mean", "sd")
     v_out
   }))
   df_out <- qsimVis::add_site_info(

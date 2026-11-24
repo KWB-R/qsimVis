@@ -29,7 +29,7 @@ deviating_hours <- function(
     time2 = dates[1],
     units = "hours"))
 
-  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame))]
+  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame)), drop = FALSE]
 
   df_out <- as.data.frame(t(apply(d, 2, function(x){
     sapply(thresholds, function(threshold) {

@@ -52,7 +52,7 @@ critical_events <- function(
   separating_data_points <- round(separating_hours / resolution, 0)
 
 
-  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame))]
+  d <- dataFrame[,-grep(pattern = "posixDateTime", x = colnames(dataFrame)), drop = FALSE]
   v <- apply(d, 2, function(data_vector){
 
     if(dev_type == "elt"){
