@@ -38,11 +38,15 @@ value_to_classes <- function(
     class_levels = levels(output_list[[1]]$data$value_class),
     colorVector = colorVector
   )
+  firstB<- classBreaks[-length(classBreaks)]
+  secB <- classBreaks[-1]
+  classMean <- as.factor(c((firstB + secB) / 2))
 
   output_list2 <- lapply(names(output_list), function(N){
     r <- output_list[[N]]
     x <- r$data
     x$color <- colorVector[x$value_class]
+    x$classMean <- classMean[as.numeric(x$value_class)]
     list("data" = x,
          "pp" = r$pp)
   })

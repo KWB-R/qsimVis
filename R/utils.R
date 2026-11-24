@@ -237,14 +237,39 @@ daysOfTimeShift <- function(all_dates){
   })
 }
 
-#' Returns the days of time shift for all years part of a date vector
+#' Map class levels to colors
 #'
-#' @param class_levels Levels of a class vector in correct order
-#' @param colorVector A vector of colors as HEX. By default, the MisaColor will
-#' be used
+#' Generates a named color vector (as a factor) for a given set of class levels.
+#' If the number of classes exceeds the length of the provided color vector,
+#' the function interpolates additional colors by averaging adjacent colors
+#' in RGB space until enough colors are available.
 #'
-#' @return
-#' A list of dates of timeshifts per year
+#' @param class_levels A character or factor vector of class labels to assign colors to.
+#' @param colorVector Optional character vector of colors (e.g., hex codes or named colors).
+#'   If \code{NULL}, the internal dataset \code{MisaColor} is loaded and used as default.
+#'
+#' @details
+#' The function ensures that the number of colors matches the number of class levels.
+#' If necessary, it iteratively expands the color palette by inserting intermediate
+#' colors between existing ones using RGB averaging.
+#'
+#' The final color vector is downsampled (if needed) to exactly match the number of
+#' classes and returned as a factor with class levels as names.
+#'
+#' @return A factor of colors with:
+#' \itemize{
+#'   \item Values: color hex codes
+#'   \item Levels: ordered colors
+#'   \item Names: corresponding class levels
+#' }
+#'
+#' @examples
+#' classes <- c("low", "medium", "high")
+#' classes_to_color(classes)
+#'
+#' # With custom color vector
+#' classes_to_color(classes, c("#0000FF", "#FF0000"))
+#'
 #'
 #' @importFrom grDevices col2rgb
 #'
@@ -262,9 +287,9 @@ classes_to_color <- function(class_levels, colorVector = NULL){
     ct <- cbind(ct[,1], matrix(sapply(2:ncol(ct), function(i){
       cbind(ct2[,i-1], ct[,i])
     }), nrow = 3))
-    colorVector <- apply(ct, 2, function(x){
+    colorVector <- unique(apply(ct, 2, function(x){
       rgb(red = x[1], green = x[2], blue = x[3], maxColorValue = 255)
-    })
+    }))
   }
 
   colorVector <- colorVector[round(
